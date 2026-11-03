@@ -70,6 +70,8 @@ export default function App() {
         onQuery={setQuery}
         cartCount={cart.length}
         activeNav={activeNav}
+        filter={filter}
+        onFilter={setFilter}
         onNavigate={(id) => {
           setActiveNav(id)
           scrollToSection(id)

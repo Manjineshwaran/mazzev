@@ -33,11 +33,39 @@ export const tradeCards = [
 ]
 
 export const aboutCards = [
-  { icon: '✦', title: 'Our mission', text: 'Make it easier for customers and businesses to discover useful products.' },
-  { icon: '🌐', title: 'Our outlook', text: 'Build thoughtful connections between suppliers and markets.' },
-  { icon: '✓', title: 'Our approach', text: 'Prioritise clear information, dependable service and responsible growth.' },
-  { icon: '🤝', title: 'Work with us', text: 'We welcome supplier, distributor and retail partnership enquiries.' },
+  {
+    icon: 'megaphone',
+    title: 'Experienced',
+    text: 'Building a growing collection of everyday essentials for customers and businesses.',
+  },
+  {
+    icon: 'draft',
+    title: 'Commitment To Customer',
+    text: 'Building trusting relations with customers across Europe.',
+  },
+  {
+    icon: 'quality',
+    title: 'Quality Seeker',
+    text: 'Prioritise quality of products for a better customer experience.',
+  },
+  {
+    icon: 'licensed',
+    title: 'Trusted Partners',
+    text: 'Working with selected suppliers and authenticated partners from different parts of the world.',
+  },
 ]
+
+export const aboutStory = {
+  title: 'About Mazzev',
+  paragraphs: [
+    'Mazzev is an international trading and commerce brand rooted in India, with a growing outlook across Sweden and Europe. We focus on everyday essentials spanning food, wellness, home and lifestyle — thoughtfully selected for customers and businesses.',
+    'Our vision is simple: make it easier to discover useful products with clear information, dependable service and responsible growth. From pantry staples to wellness finds, we aim to bring considered choices into daily life.',
+    'Whether you are shopping for your home or exploring wholesale and trade partnerships, Mazzev is built to connect suppliers, products and markets with care.',
+  ],
+  image:
+    'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=900&q=80',
+  imageAlt: 'Wooden bowls filled with grains, beans and seeds',
+}
 
 export const supportTopics = [
   { icon: '📦', title: 'Orders & delivery', text: 'Order status and delivery questions' },
