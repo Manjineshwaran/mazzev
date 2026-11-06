@@ -893,6 +893,22 @@ footer .big {
   font-size: 14.5px;
 }
 
+.modal-error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+  padding: 12px;
+  border-radius: 8px;
+  margin: 0;
+  font-size: 14px;
+  text-align: center;
+}
+
+.full-btn:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
 /* ============================================================
    RESPONSIVE DESIGN (Matching website/styles.css)
    ============================================================ */

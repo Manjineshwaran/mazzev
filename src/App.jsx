@@ -12,6 +12,8 @@ import {
 const PHONE = '0764393211'
 const PHONE_INTL = '+46764393211'
 const EMAIL = 'info@mazzev.com'
+const ENQUIRY_EMAIL = 'dividivyabharathi8@gmail.com'
+const WEB3FORMS_ACCESS_KEY = '7d810e2d-be5e-4358-a3bf-11b33cbbde80'
 const INSTAGRAM_URL = 'https://instagram.com/mazzev_official'
 const INSTAGRAM_ID = '@mazzev_official'
 const FACEBOOK_URL = 'https://facebook.com/mazzevofficial'
@@ -123,7 +125,8 @@ export default function App() {
   const [active, setActive] = useState('all')
   const [search, setSearch] = useState('')
   const [enquiryModal, setEnquiryModal] = useState(null)
-  const [enquirySent, setEnquirySent] = useState(false)
+  const [enquiryStatus, setEnquiryStatus] = useState('idle')
+  const [enquiryError, setEnquiryError] = useState('')
 
   const shown = useMemo(() => {
     return PRODUCTS.filter((p) => {
@@ -137,13 +140,70 @@ export default function App() {
     })
   }, [active, search])
 
-  function handleSendEnquiry(event) {
+  function openEnquiry(item) {
+    setEnquiryStatus('idle')
+    setEnquiryError('')
+    setEnquiryModal(item)
+  }
+
+  function closeEnquiry() {
+    setEnquiryModal(null)
+    setEnquiryStatus('idle')
+    setEnquiryError('')
+  }
+
+  async function handleSendEnquiry(event) {
     event.preventDefault()
-    setEnquirySent(true)
-    setTimeout(() => {
-      setEnquirySent(false)
-      setEnquiryModal(null)
-    }, 2400)
+    const form = event.currentTarget
+    const data = new FormData(form)
+    const name = String(data.get('name') || '').trim()
+    const contact = String(data.get('contact') || '').trim()
+    const quantity = String(data.get('quantity') || '').trim()
+    const message = String(data.get('message') || '').trim()
+    const product = enquiryModal?.name || 'Product'
+    const emailLike = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact)
+
+    setEnquiryStatus('sending')
+    setEnquiryError('')
+
+    const payload = {
+      access_key: WEB3FORMS_ACCESS_KEY,
+      subject: `Mazzev enquiry — ${product}`,
+      from_name: 'Mazzev website',
+      name,
+      product,
+      quantity: quantity || 'Not specified',
+      contact,
+      message,
+      botcheck: false,
+    }
+
+    if (emailLike) {
+      payload.email = contact
+      payload.replyto = contact
+    }
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify(payload),
+      })
+      const result = await response.json()
+      const apiMessage = result.message || result.body?.message
+      if (!response.ok || result.success !== true) {
+        throw new Error(apiMessage || 'The enquiry could not be sent.')
+      }
+      setEnquiryStatus('sent')
+    } catch (error) {
+      setEnquiryStatus('error')
+      setEnquiryError(
+        error.message || `The enquiry could not be sent. Please email ${ENQUIRY_EMAIL}.`,
+      )
+    }
   }
 
   return (
@@ -338,7 +398,7 @@ export default function App() {
                     <Product
                       key={p.name}
                       {...p}
-                      onEnquire={(item) => setEnquiryModal(item)}
+                      onEnquire={openEnquiry}
                     />
                   ))}
                 </div>
@@ -480,7 +540,7 @@ export default function App() {
         <div
           className="modal-overlay"
           onClick={(e) => {
-            if (e.target === e.currentTarget) setEnquiryModal(null)
+            if (e.target === e.currentTarget) closeEnquiry()
           }}
           role="dialog"
           aria-modal="true"
@@ -490,7 +550,7 @@ export default function App() {
             <button
               type="button"
               className="modal-close-btn"
-              onClick={() => setEnquiryModal(null)}
+              onClick={closeEnquiry}
               aria-label="Close Enquiry Dialog"
             >
               <CloseIcon size={20} />
@@ -500,10 +560,13 @@ export default function App() {
             <h2 id="modal-enquiry-title">{enquiryModal.name}</h2>
             <p className="modal-desc">{enquiryModal.desc}</p>
 
-            {enquirySent ? (
+            {enquiryStatus === 'sent' ? (
               <div className="modal-success">
                 <strong>✓ Enquiry Received!</strong>
-                <p>Thank you. We will get back to you shortly with pricing and delivery details.</p>
+                <p>
+                  Thank you. Your enquiry was sent to {ENQUIRY_EMAIL}. We will get back to you
+                  shortly with pricing and delivery details.
+                </p>
               </div>
             ) : (
               <>
@@ -512,10 +575,10 @@ export default function App() {
                   <div className="modal-channel-buttons">
                     <a
                       className="channel-btn email-btn"
-                      href={`mailto:${EMAIL}?subject=${enquiryModal.subject}`}
+                      href={`mailto:${ENQUIRY_EMAIL}?subject=${enquiryModal.subject}`}
                     >
                       <MailIcon size={16} />
-                      <span>Email ({EMAIL})</span>
+                      <span>Email ({ENQUIRY_EMAIL})</span>
                     </a>
                     <a
                       className="channel-btn wa-btn"
@@ -535,27 +598,35 @@ export default function App() {
 
                 <form className="modal-form" onSubmit={handleSendEnquiry}>
                   <label htmlFor="enquiry-name">Your Name</label>
-                  <input id="enquiry-name" required placeholder="Name or Company" />
+                  <input id="enquiry-name" name="name" required placeholder="Name or Company" />
 
                   <label htmlFor="enquiry-email">Email or Phone</label>
                   <input
                     id="enquiry-email"
+                    name="contact"
                     required
                     placeholder="email@example.com or phone number"
                   />
 
                   <label htmlFor="enquiry-quantity">Estimated Quantity</label>
-                  <input id="enquiry-quantity" placeholder="e.g. 10 kg, 20 kg, sample pack" />
+                  <input
+                    id="enquiry-quantity"
+                    name="quantity"
+                    placeholder="e.g. 10 kg, 20 kg, sample pack"
+                  />
 
                   <label htmlFor="enquiry-msg">Message / Destination (optional)</label>
                   <textarea
                     id="enquiry-msg"
+                    name="message"
                     rows="3"
                     defaultValue={`I am interested in ordering ${enquiryModal.name}. Please share pricing and shipping details.`}
                   />
 
-                  <button className="btn full-btn" type="submit">
-                    Send Enquiry
+                  {enquiryStatus === 'error' && <p className="modal-error">{enquiryError}</p>}
+
+                  <button className="btn full-btn" type="submit" disabled={enquiryStatus === 'sending'}>
+                    {enquiryStatus === 'sending' ? 'Sending…' : 'Send Enquiry'}
                   </button>
                 </form>
               </>
