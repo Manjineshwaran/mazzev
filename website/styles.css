@@ -1,0 +1,63 @@
+:root{--bg:#F5F8FA;--surface:#FFFFFF;--ink:#102A3D;--muted:#4A6071;--blue:#2F5FA8;--gold:#D9A62E;--tint:#E6EEF7;--line:#D5E0E7;--on-blue:#F5F8FA;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0C1A25;--surface:#122636;--ink:#EAF1F5;--muted:#9DB2C1;--blue:#244B86;--gold:#F2C14E;--tint:#1A3248;--line:#243A4B}}
+:root[data-theme="dark"]{--bg:#0C1A25;--surface:#122636;--ink:#EAF1F5;--muted:#9DB2C1;--blue:#244B86;--gold:#F2C14E;--tint:#1A3248;--line:#243A4B}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.65 "Figtree",system-ui,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+a{color:inherit}
+a:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.bar{background:var(--blue);color:var(--on-blue);text-align:center;font-size:15px;padding:8px 16px}
+.bar b{color:#F2C14E;font-weight:600}
+header{background:var(--surface);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 24px;padding-top:12px;padding-bottom:12px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;font:600 28px "Newsreader",Georgia,serif;color:var(--blue)}
+.brand img{height:44px;width:auto;display:block}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .brand{color:var(--ink)}}
+nav a{text-decoration:none;color:var(--muted);margin-right:22px;font-size:16px}
+nav a:last-child{margin-right:0}
+nav a:hover{color:var(--ink)}
+.hero{background:var(--blue);color:var(--on-blue)}
+.hero .wrap{padding-top:72px;padding-bottom:72px}.hero .wrap>div{max-width:640px}
+h1,h2,h3{font-family:"Newsreader",Georgia,serif}
+.hero h1{font-weight:500;font-size:clamp(34px,5.4vw,54px);line-height:1.1;margin:0 0 18px}
+.hero p{margin:0 0 26px;max-width:46ch;opacity:.93}
+.btn{display:inline-block;background:#F2C14E;color:#1A1204;padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:600;border:0;font-size:16px}
+.btn:hover{filter:brightness(1.07)}
+.panel{background:#fff;border-radius:12px;padding:32px 40px;justify-self:center;width:100%;max-width:210px}
+.panel img{display:block;width:100%;height:auto}
+section{padding:64px 0}
+h2{font-weight:500;font-size:clamp(28px,4vw,36px);line-height:1.2;margin:0 0 10px}
+.lead{color:var(--muted);max-width:56ch;margin:0 0 32px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}.cat{color:var(--muted);font-size:14px}
+.item{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+.item .pic{background:var(--tint);height:150px;padding:0 12px;text-align:center;display:flex;align-items:center;justify-content:center;font:500 22px "Newsreader",Georgia,serif;color:var(--blue)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .item .pic{color:var(--gold)}}
+.item div.t{padding:18px;display:flex;flex-direction:column;gap:6px;flex:1}
+.item h3{margin:0;font-size:20px}
+.item p{margin:0;color:var(--muted);font-size:15px}
+.item .btn{margin-top:auto;align-self:flex-start;background:var(--blue);color:#fff;padding:10px 18px;font-size:15px}
+.shop{display:grid;grid-template-columns:210px 1fr;gap:32px;align-items:start}.shop .grid{grid-template-columns:repeat(3,1fr)}.ct{margin:0 0 10px;font-size:20px}.cats{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow:hidden}.cats button{display:block;width:100%;background:none;border:0;border-bottom:1px solid var(--line);padding:12px 16px;font:inherit;font-size:16px;color:var(--ink);cursor:pointer;text-align:left}.cats li:last-child button{border-bottom:0}.cats button:hover{background:var(--tint)}.cats button[aria-pressed="true"]{background:var(--tint);font-weight:600}.cats button:focus-visible{outline:3px solid var(--gold);outline-offset:-3px}.count{margin:0 0 14px;color:var(--muted);font-size:15px}[hidden]{display:none!important}.alt{background:var(--surface)}
+.why{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+.why div{border-top:3px solid var(--gold);padding-top:14px}
+.why h3{margin:0 0 6px;font-size:19px}
+.why p{margin:0;color:var(--muted);font-size:15.5px}
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:32px;counter-reset:s}
+.steps li{counter-increment:s;border-top:3px solid var(--gold);padding-top:14px}
+.steps li::before{content:counter(s);font:500 28px "Newsreader",Georgia,serif;color:var(--gold);display:block}
+.steps h3{margin:2px 0 6px;font-size:19px}
+.steps p{margin:0;color:var(--muted);font-size:16px}
+details{border-top:1px solid var(--line);padding:16px 0;max-width:760px}
+details:last-of-type{border-bottom:1px solid var(--line)}
+summary{cursor:pointer;font-weight:600}
+details p{margin:10px 0 0;color:var(--muted)}
+footer{background:var(--blue);color:var(--on-blue);padding:56px 0 24px}
+footer .cols{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px}
+footer h3{margin:0 0 10px;font-size:20px;color:#F2C14E}
+footer p{margin:0 0 6px;opacity:.92}
+footer a{text-decoration:none;display:block;padding:2px 0}
+footer a:hover{text-decoration:underline}
+footer .big{font:500 22px "Newsreader",Georgia,serif}
+.copy{border-top:1px solid rgba(245,248,250,.25);margin-top:36px;padding-top:18px;font-size:14px;opacity:.85}
+@media (max-width:760px){.hero .wrap{padding-top:48px;padding-bottom:48px}.grid{grid-template-columns:repeat(2,1fr);gap:14px}.shop{grid-template-columns:1fr;gap:16px}.shop .grid{grid-template-columns:repeat(2,1fr)}.ct{display:none}.cats{display:flex;gap:8px;overflow-x:auto;border:0;background:none;border-radius:0;padding-bottom:4px}.cats li{flex:none}.cats button{width:auto;border:1px solid var(--line);border-radius:999px;padding:8px 14px;white-space:nowrap;background:var(--surface)}.cats li:last-child button{border-bottom:1px solid var(--line)}.item .pic{height:110px;font-size:21px;text-align:center;padding:0 8px}.item div.t{padding:14px}.why,.steps,footer .cols{grid-template-columns:1fr}section{padding:48px 0}nav a{margin-right:16px}}

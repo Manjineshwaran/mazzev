@@ -2,11 +2,20 @@ import {
   aboutCards,
   aboutStory,
   categories,
+  contactInfo,
   filters,
   supportTopics,
   tradeCards,
   trustItems,
 } from '../data/catalog'
+import {
+  FacebookIcon,
+  InstagramIcon,
+  LinkedInIcon,
+  MailIcon,
+  PhoneIcon,
+  WhatsAppIcon,
+} from './Icons'
 
 export function TrustBar() {
   return (
@@ -297,11 +306,90 @@ export function Support({ onHelp }) {
       <div className="wrap">
         <div className="section-head">
           <div>
+            <div className="eyebrow">Customer Care & Inquiries</div>
             <h2>Here to help</h2>
-            <p>Clear answers and support, from first visit to delivery.</p>
+            <p>Clear answers, quick assistance and direct contact channels across Europe and India.</p>
           </div>
         </div>
-        <div className="categories">
+
+        {/* Official Direct Contact & Social IDs Card */}
+        <div className="contact-id-grid">
+          <div className="contact-id-card insta-card">
+            <div className="contact-id-icon insta-badge">
+              <InstagramIcon size={24} />
+            </div>
+            <div className="contact-id-info">
+              <span className="contact-label">Instagram Official</span>
+              <strong className="contact-value">{contactInfo.instagram.id}</strong>
+              <p>Follow our daily edits, product arrivals & stories</p>
+            </div>
+            <a
+              href={contactInfo.instagram.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="contact-action-btn"
+            >
+              Open Instagram ↗
+            </a>
+          </div>
+
+          <div className="contact-id-card fb-card">
+            <div className="contact-id-icon fb-badge">
+              <FacebookIcon size={24} />
+            </div>
+            <div className="contact-id-info">
+              <span className="contact-label">Facebook Page</span>
+              <strong className="contact-value">{contactInfo.facebook.id}</strong>
+              <p>Connect with our verified trade & retail community</p>
+            </div>
+            <a
+              href={contactInfo.facebook.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="contact-action-btn"
+            >
+              Open Facebook ↗
+            </a>
+          </div>
+
+          <div className="contact-id-card whatsapp-card">
+            <div className="contact-id-icon wa-badge">
+              <WhatsAppIcon size={24} />
+            </div>
+            <div className="contact-id-info">
+              <span className="contact-label">WhatsApp Quick Support</span>
+              <strong className="contact-value">{contactInfo.whatsapp.display}</strong>
+              <p>Instant queries for wholesale & consumer orders</p>
+            </div>
+            <a
+              href={contactInfo.whatsapp.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="contact-action-btn"
+            >
+              Message Us ↗
+            </a>
+          </div>
+
+          <div className="contact-id-card email-card">
+            <div className="contact-id-icon mail-badge">
+              <MailIcon size={24} />
+            </div>
+            <div className="contact-id-info">
+              <span className="contact-label">Email Support Desk</span>
+              <strong className="contact-value">{contactInfo.email.address}</strong>
+              <p>Replies within 24 hours on business days</p>
+            </div>
+            <a
+              href={contactInfo.email.href}
+              className="contact-action-btn"
+            >
+              Send Email ↗
+            </a>
+          </div>
+        </div>
+
+        <div className="categories" style={{ marginTop: '24px' }}>
           {supportTopics.map((topic) => (
             <button className="category" type="button" key={topic.title} onClick={() => onHelp(topic.title)}>
               <span className="cat-icon">{topic.icon}</span>
@@ -336,21 +424,63 @@ export function Footer({ onInfo }) {
             </p>
             <div className="foot-contact">
               <p>
-                <strong>Address:</strong> Sweden · Europe
+                <strong>Address:</strong> {contactInfo.address}
               </p>
               <p>
-                <strong>Email:</strong> info@mazzev.com
+                <strong>Email:</strong> <a href={contactInfo.email.href} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}><MailIcon size={14} /> {contactInfo.email.address}</a>
               </p>
               <p>
-                <strong>Call Us:</strong> Customer Support
+                <strong>Hotline:</strong> <a href={contactInfo.phone.href} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}><PhoneIcon size={14} /> {contactInfo.phone.display}</a>
               </p>
+            </div>
+
+            {/* Social Channels in Footer */}
+            <div className="foot-socials" aria-label="Social media">
+              <a
+                href={contactInfo.instagram.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={`Instagram: ${contactInfo.instagram.id}`}
+                aria-label="Instagram"
+                className="foot-social-btn"
+              >
+                <InstagramIcon size={18} />
+              </a>
+              <a
+                href={contactInfo.facebook.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={`Facebook: ${contactInfo.facebook.id}`}
+                aria-label="Facebook"
+                className="foot-social-btn"
+              >
+                <FacebookIcon size={18} />
+              </a>
+              <a
+                href={contactInfo.whatsapp.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={`WhatsApp: ${contactInfo.whatsapp.display}`}
+                aria-label="WhatsApp"
+                className="foot-social-btn"
+              >
+                <WhatsAppIcon size={18} />
+              </a>
+              <a
+                href="#support"
+                title="LinkedIn"
+                aria-label="LinkedIn"
+                className="foot-social-btn"
+              >
+                <LinkedInIcon size={18} />
+              </a>
             </div>
           </div>
 
           <div className="footcol">
             <strong>Information</strong>
             <button type="button" onClick={() => onInfo('terms')}>
-              Terms & Condition
+              Terms & Conditions
             </button>
             <button type="button" onClick={() => onInfo('privacy')}>
               Privacy Policy
@@ -365,11 +495,14 @@ export function Footer({ onInfo }) {
             <button type="button" onClick={() => onInfo('delivery')}>
               Shipping & Delivery
             </button>
+            <button type="button" onClick={() => onInfo('contact')}>
+              Direct Contact & Social IDs
+            </button>
           </div>
 
           <div className="footcol foot-newsletter">
             <strong>Sign Up To Newsletter</strong>
-            <p>Subscribe to get the latest news and updates from Mazzev</p>
+            <p>Subscribe to get the latest product drops, offers and wholesale updates from Mazzev.</p>
             <form
               className="newsletter-form"
               onSubmit={(event) => {
@@ -384,7 +517,7 @@ export function Footer({ onInfo }) {
         </div>
 
         <div className="copyright">
-          <span>Copyright © {year} Mazzev. All Right Reserved.</span>
+          <span>Copyright © {year} Mazzev. All Rights Reserved. · Rooted in India, delivering to Europe.</span>
           <button className="back-to-top" type="button" onClick={scrollTop} aria-label="Back to top">
             ˄
           </button>

@@ -1,127 +1,568 @@
-import { useEffect, useRef, useState } from 'react'
-import Header from './components/Header'
-import Hero from './components/Hero'
-import Modal from './components/Modal'
-import ProductGrid from './components/ProductGrid'
+import { useMemo, useState } from 'react'
 import {
-  About,
-  Account,
-  Categories,
-  Collection,
-  Footer,
-  ImportExport,
-  Offers,
-  Support,
-  TrustBar,
-  Wholesale,
-} from './components/SiteSections'
-import { products } from './data/catalog'
+  CloseIcon,
+  FacebookIcon,
+  InstagramIcon,
+  MailIcon,
+  PhoneIcon,
+  SearchIcon,
+  WhatsAppIcon,
+} from './components/Icons'
 
-function scrollToSection(id) {
-  if (id === 'home') {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-    return
-  }
-  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+const PHONE = '0764393211'
+const PHONE_INTL = '+46764393211'
+const EMAIL = 'info@mazzev.com'
+const INSTAGRAM_URL = 'https://instagram.com/mazzev_official'
+const INSTAGRAM_ID = '@mazzev_official'
+const FACEBOOK_URL = 'https://facebook.com/mazzevofficial'
+const FACEBOOK_ID = 'facebook.com/mazzevofficial'
+const WHATSAPP_URL = 'https://wa.me/46764393211'
+
+const CATEGORIES = [
+  { id: 'all', label: 'All products' },
+  { id: 'oils', label: 'Cold-pressed oils' },
+  { id: 'rice', label: 'Rice' },
+  { id: 'bars', label: 'Chikki bars' },
+  { id: 'balls', label: 'Chikki balls' },
+  { id: 'rounds', label: 'Chikki rounds' },
+  { id: 'candy', label: 'Sliced candy' },
+  { id: 'jars', label: 'Jars' },
+  { id: 'textiles', label: 'Textiles' },
+  { id: 'kids', label: 'Kids' },
+]
+
+const PRODUCTS = [
+  { cat: 'oils', name: 'Sesame oil', desc: 'For cooking, massage and daily wellness.' },
+  { cat: 'oils', name: 'Groundnut oil', desc: 'An everyday cooking oil for frying and sautéing.' },
+  { cat: 'oils', name: 'Coconut oil', desc: 'For cooking, hair and skin care.' },
+  { cat: 'rice', name: 'Rice', desc: 'A staple Indian rice for everyday meals.' },
+  { cat: 'bars', name: 'Small peanut bar', desc: 'Minimum order 10 kg.' },
+  { cat: 'bars', name: 'Regular peanut bar', desc: 'Minimum order 10 kg.' },
+  { cat: 'bars', name: 'Regular crushed peanut bar', desc: 'Minimum order 10 kg.' },
+  { cat: 'bars', name: 'Large peanut bar', desc: 'Minimum order 10 kg.' },
+  { cat: 'bars', name: 'Large crushed peanut bar', desc: 'Minimum order 10 kg.' },
+  { cat: 'bars', name: 'Peanut family pack', desc: 'Minimum order 10 kg.' },
+  { cat: 'bars', name: 'Regular peanut bar (20 pcs)', desc: 'Minimum order 10 kg.' },
+  { cat: 'bars', name: 'Small peanut bar pack (20 pcs)', desc: 'Minimum order 10 kg.' },
+  { cat: 'balls', name: 'Peanut balls pack', desc: 'Minimum order 10 kg.' },
+  { cat: 'balls', name: 'White sesame balls pack', desc: 'Minimum order 10 kg.' },
+  { cat: 'balls', name: 'Black sesame balls pack', desc: 'Minimum order 10 kg.' },
+  { cat: 'balls', name: 'Puffed rice balls pack', desc: 'Minimum order 10 kg.' },
+  { cat: 'balls', name: 'Roasted gram ball pack', desc: 'Minimum order 10 kg.' },
+  { cat: 'rounds', name: 'Peanut round', desc: 'Minimum order 10 kg.' },
+  { cat: 'rounds', name: 'White sesame round', desc: 'Minimum order 10 kg.' },
+  { cat: 'rounds', name: 'Black sesame round', desc: 'Minimum order 10 kg.' },
+  { cat: 'candy', name: 'Peanut sliced candy pack', desc: 'Minimum order 10 kg.' },
+  { cat: 'candy', name: 'Crushed peanut sliced candy pack', desc: 'Minimum order 10 kg.' },
+  { cat: 'candy', name: 'Peanut sliced candy box', desc: 'Minimum order 10 kg.' },
+  { cat: 'candy', name: 'White sesame sliced candy box', desc: 'Minimum order 10 kg.' },
+  { cat: 'candy', name: 'Black sesame sliced candy box', desc: 'Minimum order 10 kg.' },
+  { cat: 'jars', name: 'Peanut balls PET jar', desc: 'Minimum order 10 kg.' },
+  { cat: 'jars', name: 'White sesame balls PET jar', desc: 'Minimum order 10 kg.' },
+  { cat: 'jars', name: 'Black sesame balls PET jar', desc: 'Minimum order 10 kg.' },
+  { cat: 'jars', name: 'Roasted gram balls PET jar', desc: 'Minimum order 10 kg.' },
+  { cat: 'jars', name: 'Peanut sliced candy PET jar', desc: 'Minimum order 10 kg.' },
+  { cat: 'jars', name: 'Peanut candy jar', desc: 'Minimum order 10 kg.' },
+  { cat: 'jars', name: 'Crushed peanut candy PET jar', desc: 'Minimum order 10 kg.' },
+  { cat: 'jars', name: 'Small peanut bar jar', desc: 'Minimum order 10 kg.' },
+  { cat: 'jars', name: 'Small crushed peanut bar jar', desc: 'Minimum order 10 kg.' },
+  { cat: 'jars', name: 'Small black sesame bar jar', desc: 'Minimum order 10 kg.' },
+  { cat: 'textiles', name: 'Cotton mesh bags', desc: 'Reusable cotton mesh bags for shopping and storage.' },
+  { cat: 'kids', name: 'Wooden teether rattle', desc: 'A wooden teether and rattle toy that makes a gentle sound.' },
+]
+
+const WHY = [
+  ['Rooted in India', 'Products come from makers we know and trust.'],
+  ['Chosen with care', 'A small range, picked for quality and honest sourcing.'],
+  ['Clear information', 'You see what a product is and where it comes from.'],
+  ['Made for Europe', 'Imported and delivered to customers across Europe.'],
+]
+
+const STEPS = [
+  ['Chosen in India', 'We work with a trusted sourcing partner and select each product by hand.'],
+  ['Shipped to Europe', 'Goods are imported and checked before they reach you.'],
+  ['Delivered to you', 'You get quality products at a fair price, with clear information.'],
+]
+
+const FAQ = [
+  [
+    'How do I order?',
+    `Send an email to ${EMAIL} or call ${PHONE} with the products you want. You can also reach us via Instagram ${INSTAGRAM_ID} or WhatsApp. The minimum order for snacks is 10 kg. We reply with details and delivery information.`,
+  ],
+  ['Where do the products come from?', 'They come from makers in India, sourced through a trusted partner.'],
+  [
+    'What products do you sell?',
+    'Cold-pressed oils, rice, snacks, cotton textiles and wooden toys for kids. We add more as the range grows.',
+  ],
+]
+
+const getCatLabel = (id) => CATEGORIES.find((c) => c.id === id)?.label ?? ''
+
+function Product({ cat, name, desc, onEnquire }) {
+  const subject = encodeURIComponent(`${name} enquiry`)
+  return (
+    <div className="item">
+      <div className="pic">{name}</div>
+      <div className="t">
+        <span className="cat">{getCatLabel(cat)}</span>
+        <h3>{name}</h3>
+        <p>{desc}</p>
+        <button
+          type="button"
+          className="btn"
+          onClick={() => onEnquire({ cat, name, desc, subject })}
+        >
+          Enquire
+        </button>
+      </div>
+    </div>
+  )
 }
 
 export default function App() {
-  const [query, setQuery] = useState('')
-  const [filter, setFilter] = useState('All')
-  const [cart, setCart] = useState([])
-  const [activeNav, setActiveNav] = useState('home')
-  const [toast, setToast] = useState('')
-  const [modal, setModal] = useState(null)
-  const toastTimer = useRef(null)
+  const [active, setActive] = useState('all')
+  const [search, setSearch] = useState('')
+  const [enquiryModal, setEnquiryModal] = useState(null)
+  const [enquirySent, setEnquirySent] = useState(false)
 
-  useEffect(() => () => clearTimeout(toastTimer.current), [])
+  const shown = useMemo(() => {
+    return PRODUCTS.filter((p) => {
+      const matchCat = active === 'all' || p.cat === active
+      const matchSearch =
+        !search.trim() ||
+        p.name.toLowerCase().includes(search.toLowerCase()) ||
+        p.desc.toLowerCase().includes(search.toLowerCase()) ||
+        getCatLabel(p.cat).toLowerCase().includes(search.toLowerCase())
+      return matchCat && matchSearch
+    })
+  }, [active, search])
 
-  useEffect(() => {
-    if (!modal) return undefined
-    const onKey = (event) => {
-      if (event.key === 'Escape') setModal(null)
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [modal])
-
-  function showToast(message) {
-    setToast(message)
-    clearTimeout(toastTimer.current)
-    toastTimer.current = setTimeout(() => setToast(''), 2600)
+  function handleSendEnquiry(event) {
+    event.preventDefault()
+    setEnquirySent(true)
+    setTimeout(() => {
+      setEnquirySent(false)
+      setEnquiryModal(null)
+    }, 2400)
   }
-
-  function chooseFilter(next, scroll = false) {
-    setFilter(next)
-    if (scroll) scrollToSection('products')
-  }
-
-  const search = query.trim().toLowerCase()
-  const visibleProducts = products.filter((product) => {
-    const matchesFilter = filter === 'All' || product.cat === filter
-    const haystack = `${product.name} ${product.cat} ${product.tag}`.toLowerCase()
-    return matchesFilter && (!search || haystack.includes(search))
-  })
 
   return (
     <>
-      <Header
-        query={query}
-        onQuery={setQuery}
-        cartCount={cart.length}
-        activeNav={activeNav}
-        filter={filter}
-        onFilter={setFilter}
-        onNavigate={(id) => {
-          setActiveNav(id)
-          scrollToSection(id)
-        }}
-        onLogin={() => setModal({ kind: 'login' })}
-        onCart={() => setModal({ kind: 'cart' })}
-      />
-      <main id="home">
-        <Hero
-          onExplore={() => {
-            setActiveNav(null)
-            scrollToSection('categories')
+      {/* 1. TOP ANNOUNCEMENT & CONTACT BAR */}
+      <div className="bar">
+        <div className="wrap bar-inner">
+          <div className="bar-tagline">
+            <b>Wellness rooted in India</b> · Orders & Enquiries:
+            <a className="bar-link" href={`tel:${PHONE_INTL}`}>
+              <PhoneIcon size={13} /> {PHONE}
+            </a>
+            <span className="bar-sep">·</span>
+            <a className="bar-link" href={`mailto:${EMAIL}`}>
+              <MailIcon size={13} /> {EMAIL}
+            </a>
+          </div>
+
+          <div className="bar-socials" aria-label="Official Social IDs">
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bar-social-item"
+              title={`Instagram: ${INSTAGRAM_ID}`}
+            >
+              <InstagramIcon size={13} />
+              <span>{INSTAGRAM_ID}</span>
+            </a>
+            <a
+              href={FACEBOOK_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bar-social-item"
+              title={`Facebook: ${FACEBOOK_ID}`}
+            >
+              <FacebookIcon size={13} />
+              <span>Facebook</span>
+            </a>
+            <a
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bar-social-item bar-wa"
+              title={`WhatsApp: ${PHONE}`}
+            >
+              <WhatsAppIcon size={13} />
+              <span>WhatsApp</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. HEADER */}
+      <header>
+        <div className="wrap">
+          <a className="brand" href="#top" id="top">
+            <img src="/logo-mark.png" alt="Mazzev Logo" width="139" height="217" />
+            Mazzev
+          </a>
+          <nav aria-label="Main">
+            <a href="#shop">Shop</a>
+            <a href="#why">Why Mazzev</a>
+            <a href="#how">How it works</a>
+            <a href="#faq">FAQ</a>
+            <a href="#contact">Contact</a>
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="nav-social-icon"
+              title="Instagram"
+              aria-label="Instagram"
+            >
+              <InstagramIcon size={18} />
+            </a>
+            <a
+              href={FACEBOOK_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="nav-social-icon"
+              title="Facebook"
+              aria-label="Facebook"
+            >
+              <FacebookIcon size={18} />
+            </a>
+          </nav>
+        </div>
+      </header>
+
+      {/* 3. HERO */}
+      <div className="hero">
+        <div className="wrap">
+          <div>
+            <h1>Everyday goods with Indian roots, made for life in Europe.</h1>
+            <p>
+              A modern general merchandise brand with Indian roots and a European outlook. Food,
+              textiles and kids&apos; toys from trusted makers in India.
+            </p>
+            <a className="btn" href="#shop">
+              Shop our range
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* 4. SHOP */}
+      <section id="shop">
+        <div className="wrap">
+          <div className="shop-header">
+            <div>
+              <h2>Shop</h2>
+              <p className="lead">
+                Oils, rice, snacks, cotton textiles and wooden toys for little ones. Snacks are sold
+                in minimum orders of 10 kg. Send us a message to order or to ask for details.
+              </p>
+            </div>
+
+            {/* Live Search Input */}
+            <div className="shop-search-wrap">
+              <SearchIcon size={16} className="shop-search-icon" />
+              <input
+                type="search"
+                className="shop-search-input"
+                placeholder="Search products (e.g. sesame, peanut, oil, cotton)..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                aria-label="Search products"
+              />
+              {search && (
+                <button
+                  type="button"
+                  className="shop-search-clear"
+                  onClick={() => setSearch('')}
+                  aria-label="Clear search"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+          </div>
+
+          <div className="shop">
+            <aside aria-label="Categories">
+              <h3 className="ct">Categories</h3>
+              <ul className="cats">
+                {CATEGORIES.map((c) => {
+                  const count =
+                    c.id === 'all'
+                      ? PRODUCTS.length
+                      : PRODUCTS.filter((p) => p.cat === c.id).length
+                  return (
+                    <li key={c.id}>
+                      <button
+                        type="button"
+                        aria-pressed={active === c.id}
+                        onClick={() => setActive(c.id)}
+                      >
+                        <span>{c.label}</span>
+                        <span className="cat-count">{count}</span>
+                      </button>
+                    </li>
+                  )
+                })}
+              </ul>
+            </aside>
+
+            <div className="shop-content">
+              <div className="count">
+                Showing {shown.length} {shown.length === 1 ? 'product' : 'products'}
+                {active !== 'all' && ` in ${getCatLabel(active)}`}
+                {search.trim() && ` matching "${search}"`}
+              </div>
+
+              {shown.length === 0 ? (
+                <div className="empty-shop">
+                  <p>No products found matching &ldquo;{search}&rdquo;.</p>
+                  <button
+                    type="button"
+                    className="btn"
+                    onClick={() => {
+                      setSearch('')
+                      setActive('all')
+                    }}
+                  >
+                    View all products
+                  </button>
+                </div>
+              ) : (
+                <div className="grid">
+                  {shown.map((p) => (
+                    <Product
+                      key={p.name}
+                      {...p}
+                      onEnquire={(item) => setEnquiryModal(item)}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. WHY CHOOSE MAZZEV */}
+      <section id="why" className="alt">
+        <div className="wrap">
+          <h2>Why choose Mazzev</h2>
+          <p className="lead">Simple promises we can keep.</p>
+          <div className="why">
+            {WHY.map(([t, d]) => (
+              <div key={t}>
+                <h3>{t}</h3>
+                <p>{d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 6. HOW IT WORKS */}
+      <section id="how">
+        <div className="wrap">
+          <h2>How it works</h2>
+          <p className="lead">Short, direct, and easy to follow.</p>
+          <ol className="steps">
+            {STEPS.map(([t, d]) => (
+              <li key={t}>
+                <h3>{t}</h3>
+                <p>{d}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* 7. QUESTIONS / FAQ */}
+      <section id="faq" className="alt">
+        <div className="wrap">
+          <h2>Questions</h2>
+          <p className="lead">If your question isn&apos;t here, contact us directly.</p>
+          {FAQ.map(([q, a]) => (
+            <details key={q}>
+              <summary>{q}</summary>
+              <p>{a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      {/* 8. FOOTER & CONTACT */}
+      <footer id="contact">
+        <div className="wrap">
+          <div className="cols">
+            <div>
+              <h3>Mazzev</h3>
+              <p>Wellness rooted in India.</p>
+              <p>
+                A modern general merchandise brand with Indian roots and a European outlook.
+              </p>
+              <p>Direct wholesale sourcing and cross-border delivery across Europe.</p>
+            </div>
+
+            <div>
+              <h3>Contact us</h3>
+              <a className="big" href={`tel:${PHONE_INTL}`}>
+                {PHONE}
+              </a>
+              <a className="big" href={`mailto:${EMAIL}`}>
+                {EMAIL}
+              </a>
+
+              {/* Direct Social and Contact IDs */}
+              <div className="foot-social-ids">
+                <a
+                  href={INSTAGRAM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="foot-id-link"
+                >
+                  <InstagramIcon size={16} />
+                  <span>
+                    Instagram: <strong>{INSTAGRAM_ID}</strong>
+                  </span>
+                </a>
+                <a
+                  href={FACEBOOK_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="foot-id-link"
+                >
+                  <FacebookIcon size={16} />
+                  <span>
+                    Facebook: <strong>{FACEBOOK_ID}</strong>
+                  </span>
+                </a>
+                <a
+                  href={WHATSAPP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="foot-id-link"
+                >
+                  <WhatsAppIcon size={16} />
+                  <span>
+                    WhatsApp: <strong>{PHONE}</strong>
+                  </span>
+                </a>
+              </div>
+            </div>
+
+            <div>
+              <h3>Quick links</h3>
+              <a href="#shop">Shop</a>
+              <a href="#why">Why Mazzev</a>
+              <a href="#how">How it works</a>
+              <a href="#faq">Questions</a>
+              <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
+                Instagram Page ↗
+              </a>
+              <a href={FACEBOOK_URL} target="_blank" rel="noopener noreferrer">
+                Facebook Page ↗
+              </a>
+            </div>
+          </div>
+
+          <div className="copy">
+            © 2026 Mazzev. All rights reserved. · Rooted in India, delivering across Europe.
+          </div>
+        </div>
+      </footer>
+
+      {/* 9. PRODUCT ENQUIRY MODAL */}
+      {enquiryModal && (
+        <div
+          className="modal-overlay"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setEnquiryModal(null)
           }}
-          onWholesale={() => setModal({ kind: 'business' })}
-        />
-        <TrustBar />
-        <Categories
-          onBrowseAll={() => setFilter('All')}
-          onSelect={(name) => chooseFilter(name, true)}
-        />
-        <Collection filter={filter} onFilter={(name) => chooseFilter(name, true)}>
-          <ProductGrid
-            products={visibleProducts}
-            onAdd={(product) => {
-              setCart((current) => [...current, product])
-              showToast(`${product.name} added to your sample cart`)
-            }}
-          />
-        </Collection>
-        <Offers onExplore={() => showToast('Live offers will appear here when promotions are configured.')} />
-        <ImportExport onEnquire={() => setModal({ kind: 'trade' })} />
-        <Wholesale onQuote={() => setModal({ kind: 'business' })} />
-        <About />
-        <Account onLogin={() => setModal({ kind: 'login' })} />
-        <Support onHelp={(title) => setModal({ kind: 'help', title })} />
-      </main>
-      <Footer onInfo={(page) => setModal({ kind: 'info', page })} />
-      <div className={toast ? 'toast show' : 'toast'} role="status" aria-live="polite">{toast}</div>
-      <Modal
-        modal={modal}
-        cart={cart}
-        onClose={() => setModal(null)}
-        onRemove={(index) => setCart((current) => current.filter((_, itemIndex) => itemIndex !== index))}
-        onCheckout={() => setModal({ kind: 'checkout' })}
-        onExplore={() => {
-          setModal(null)
-          scrollToSection('products')
-        }}
-        onToast={showToast}
-      />
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-enquiry-title"
+        >
+          <div className="modal-card">
+            <button
+              type="button"
+              className="modal-close-btn"
+              onClick={() => setEnquiryModal(null)}
+              aria-label="Close Enquiry Dialog"
+            >
+              <CloseIcon size={20} />
+            </button>
+
+            <span className="modal-cat">{getCatLabel(enquiryModal.cat)}</span>
+            <h2 id="modal-enquiry-title">{enquiryModal.name}</h2>
+            <p className="modal-desc">{enquiryModal.desc}</p>
+
+            {enquirySent ? (
+              <div className="modal-success">
+                <strong>✓ Enquiry Received!</strong>
+                <p>Thank you. We will get back to you shortly with pricing and delivery details.</p>
+              </div>
+            ) : (
+              <>
+                <div className="modal-channels">
+                  <div className="modal-channel-title">Direct Order & Enquiry Channels:</div>
+                  <div className="modal-channel-buttons">
+                    <a
+                      className="channel-btn email-btn"
+                      href={`mailto:${EMAIL}?subject=${enquiryModal.subject}`}
+                    >
+                      <MailIcon size={16} />
+                      <span>Email ({EMAIL})</span>
+                    </a>
+                    <a
+                      className="channel-btn wa-btn"
+                      href={`${WHATSAPP_URL}?text=${encodeURIComponent(`Hello, I would like to enquire about ${enquiryModal.name}.`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <WhatsAppIcon size={16} />
+                      <span>WhatsApp ({PHONE})</span>
+                    </a>
+                    <a className="channel-btn tel-btn" href={`tel:${PHONE_INTL}`}>
+                      <PhoneIcon size={16} />
+                      <span>Call ({PHONE})</span>
+                    </a>
+                  </div>
+                </div>
+
+                <form className="modal-form" onSubmit={handleSendEnquiry}>
+                  <label htmlFor="enquiry-name">Your Name</label>
+                  <input id="enquiry-name" required placeholder="Name or Company" />
+
+                  <label htmlFor="enquiry-email">Email or Phone</label>
+                  <input
+                    id="enquiry-email"
+                    required
+                    placeholder="email@example.com or phone number"
+                  />
+
+                  <label htmlFor="enquiry-quantity">Estimated Quantity</label>
+                  <input id="enquiry-quantity" placeholder="e.g. 10 kg, 20 kg, sample pack" />
+
+                  <label htmlFor="enquiry-msg">Message / Destination (optional)</label>
+                  <textarea
+                    id="enquiry-msg"
+                    rows="3"
+                    defaultValue={`I am interested in ordering ${enquiryModal.name}. Please share pricing and shipping details.`}
+                  />
+
+                  <button className="btn full-btn" type="submit">
+                    Send Enquiry
+                  </button>
+                </form>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </>
   )
 }

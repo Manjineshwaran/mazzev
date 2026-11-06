@@ -74,12 +74,50 @@ export const supportTopics = [
   { icon: '✉', title: 'Contact MAZZEV', text: 'Get in touch with our team' },
 ]
 
+export const contactInfo = {
+  instagram: {
+    id: '@mazzev_official',
+    url: 'https://instagram.com/mazzev_official',
+    label: 'Instagram',
+  },
+  facebook: {
+    id: 'facebook.com/mazzevofficial',
+    url: 'https://facebook.com/mazzevofficial',
+    label: 'Facebook',
+  },
+  whatsapp: {
+    number: '+46 70 123 4567',
+    display: '+46 (0) 70 123 4567',
+    url: 'https://wa.me/46701234567',
+    label: 'WhatsApp',
+  },
+  phone: {
+    display: '+46 (0) 70 123 4567',
+    href: 'tel:+46701234567',
+    label: 'Helpline',
+  },
+  email: {
+    address: 'info@mazzev.com',
+    support: 'support@mazzev.com',
+    href: 'mailto:info@mazzev.com',
+    label: 'Email',
+  },
+  address: 'Stockholm, Sweden · Pan-European & India Trade',
+}
+
+export const languageOptions = [
+  { code: 'en-se', flag: '🇬🇧', label: 'English', currency: 'SEK' },
+  { code: 'sv-se', flag: '🇸🇪', label: 'Svenska', currency: 'SEK' },
+  { code: 'de-eu', flag: '🇩🇪', label: 'Deutsch', currency: 'EUR' },
+  { code: 'en-in', flag: '🇮🇳', label: 'India', currency: 'INR' },
+]
+
 export const navItems = [
   { id: 'home', label: 'Home' },
-  { id: 'import-export', label: 'Import & Export' },
   { id: 'products', label: 'Products & Shop' },
-  { id: 'offers', label: 'Offers' },
-  { id: 'wholesale', label: 'Wholesale / Business' },
+  { id: 'import-export', label: 'Import & Export', badge: 'Global' },
+  { id: 'wholesale', label: 'Wholesale / Business', badge: 'B2B' },
+  { id: 'offers', label: 'Offers', badge: 'Sale' },
   { id: 'about', label: 'About Us' },
   { id: 'support', label: 'Contact & Service' },
 ]

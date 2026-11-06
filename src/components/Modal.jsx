@@ -1,5 +1,12 @@
 import { useState } from 'react'
-import { formatPrice, infoPages } from '../data/catalog'
+import { contactInfo, formatPrice, infoPages } from '../data/catalog'
+import {
+  FacebookIcon,
+  InstagramIcon,
+  MailIcon,
+  PhoneIcon,
+  WhatsAppIcon,
+} from './Icons'
 
 export default function Modal({ modal, cart, onClose, onRemove, onCheckout, onExplore, onToast }) {
   if (!modal) return null
@@ -196,15 +203,75 @@ function CheckoutView({ onClose }) {
 }
 
 function Preview({ title, onClose, help = false }) {
+  const isContact = title === 'Contact MAZZEV' || title === 'Frequently & Questions' || help
   return (
     <>
       <h2 id="modalTitle">{title}</h2>
       <p>
         {help
-          ? 'This is a support-page preview. The live site can provide relevant answers, contact details, delivery information and order-specific help here.'
-          : "This information page needs MAZZEV's verified company details, customer service contact, delivery policy and applicable legal text before launch."}
+          ? 'MAZZEV customer service and trade assistance are available on all official channels below.'
+          : 'Official verified details and contact channels for MAZZEV.'}
       </p>
-      <button className="btn primary" type="button" onClick={onClose}>Close preview</button>
+
+      {isContact && (
+        <div className="modal-contact-box">
+          <div className="modal-contact-item">
+            <InstagramIcon size={20} className="modal-icon insta" />
+            <div>
+              <span className="modal-label">Instagram ID</span>
+              <a href={contactInfo.instagram.url} target="_blank" rel="noopener noreferrer" className="modal-value-link">
+                {contactInfo.instagram.id} ↗
+              </a>
+            </div>
+          </div>
+
+          <div className="modal-contact-item">
+            <FacebookIcon size={20} className="modal-icon fb" />
+            <div>
+              <span className="modal-label">Facebook ID</span>
+              <a href={contactInfo.facebook.url} target="_blank" rel="noopener noreferrer" className="modal-value-link">
+                {contactInfo.facebook.id} ↗
+              </a>
+            </div>
+          </div>
+
+          <div className="modal-contact-item">
+            <WhatsAppIcon size={20} className="modal-icon wa" />
+            <div>
+              <span className="modal-label">WhatsApp Helpline</span>
+              <a href={contactInfo.whatsapp.url} target="_blank" rel="noopener noreferrer" className="modal-value-link">
+                {contactInfo.whatsapp.display} ↗
+              </a>
+            </div>
+          </div>
+
+          <div className="modal-contact-item">
+            <PhoneIcon size={20} className="modal-icon phone" />
+            <div>
+              <span className="modal-label">Direct Hotline</span>
+              <a href={contactInfo.phone.href} className="modal-value-link">
+                {contactInfo.phone.display}
+              </a>
+            </div>
+          </div>
+
+          <div className="modal-contact-item">
+            <MailIcon size={20} className="modal-icon mail" />
+            <div>
+              <span className="modal-label">Email Support</span>
+              <a href={contactInfo.email.href} className="modal-value-link">
+                {contactInfo.email.address}
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div style={{ marginTop: '18px' }}>
+        <button className="btn primary full" type="button" onClick={onClose}>
+          Close
+        </button>
+      </div>
     </>
   )
 }
