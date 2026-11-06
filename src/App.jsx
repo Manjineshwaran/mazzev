@@ -12,7 +12,6 @@ import {
 const PHONE = '0764393211'
 const PHONE_INTL = '+46764393211'
 const EMAIL = 'info@mazzev.com'
-const ENQUIRY_EMAIL = 'dividivyabharathi8@gmail.com'
 const WEB3FORMS_ACCESS_KEY = '7d810e2d-be5e-4358-a3bf-11b33cbbde80'
 const INSTAGRAM_URL = 'https://instagram.com/mazzev_official'
 const INSTAGRAM_ID = '@mazzev_official'
@@ -201,7 +200,7 @@ export default function App() {
     } catch (error) {
       setEnquiryStatus('error')
       setEnquiryError(
-        error.message || `The enquiry could not be sent. Please email ${ENQUIRY_EMAIL}.`,
+        error.message || `The enquiry could not be sent. Please email ${EMAIL}.`,
       )
     }
   }
@@ -564,7 +563,7 @@ export default function App() {
               <div className="modal-success">
                 <strong>✓ Enquiry Received!</strong>
                 <p>
-                  Thank you. Your enquiry was sent to {ENQUIRY_EMAIL}. We will get back to you
+                  Thank you. Your enquiry was sent to {EMAIL}. We will get back to you
                   shortly with pricing and delivery details.
                 </p>
               </div>
@@ -575,10 +574,10 @@ export default function App() {
                   <div className="modal-channel-buttons">
                     <a
                       className="channel-btn email-btn"
-                      href={`mailto:${ENQUIRY_EMAIL}?subject=${enquiryModal.subject}`}
+                      href={`mailto:${EMAIL}?subject=${enquiryModal.subject}`}
                     >
                       <MailIcon size={16} />
-                      <span>Email ({ENQUIRY_EMAIL})</span>
+                      <span>Email ({EMAIL})</span>
                     </a>
                     <a
                       className="channel-btn wa-btn"

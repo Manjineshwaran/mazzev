@@ -252,11 +252,13 @@ nav a:hover {
   padding-bottom: 72px;
 }
 
-.hero .wrap > div {
+.hero .wrap>div {
   max-width: 640px;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-family: "Newsreader", Georgia, serif;
 }
 
@@ -718,8 +720,13 @@ footer .big {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .modal-card {
@@ -899,7 +906,7 @@ footer .big {
   color: #991b1b;
   padding: 12px;
   border-radius: 8px;
-  margin: 0;
+  margin: 14px 0 0;
   font-size: 14px;
   text-align: center;
 }
@@ -923,24 +930,30 @@ footer .big {
     padding-top: 48px;
     padding-bottom: 48px;
   }
+
   .shop-header {
     flex-direction: column;
     align-items: stretch;
   }
+
   .shop-search-wrap {
     max-width: 100%;
   }
+
   .shop {
     grid-template-columns: 1fr;
     gap: 16px;
   }
+
   .shop .grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 14px;
   }
+
   .ct {
     display: none;
   }
+
   .cats {
     display: flex;
     gap: 8px;
@@ -951,12 +964,15 @@ footer .big {
     padding-bottom: 4px;
     scrollbar-width: none;
   }
+
   .cats::-webkit-scrollbar {
     display: none;
   }
+
   .cats li {
     flex: none;
   }
+
   .cats button {
     width: auto;
     border: 1px solid var(--line);
@@ -966,28 +982,37 @@ footer .big {
     background: var(--surface);
     gap: 6px;
   }
+
   .cats li:last-child button {
     border-bottom: 1px solid var(--line);
   }
+
   .item .pic {
     height: 110px;
     font-size: 19px;
     text-align: center;
     padding: 0 8px;
   }
+
   .item div.t {
     padding: 14px;
   }
-  .why, .steps, footer .cols {
+
+  .why,
+  .steps,
+  footer .cols {
     grid-template-columns: 1fr;
     gap: 24px;
   }
+
   section {
     padding: 48px 0;
   }
+
   nav a {
     margin-right: 14px;
   }
+
   .bar-inner {
     flex-direction: column;
     align-items: flex-start;
