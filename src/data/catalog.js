@@ -76,8 +76,8 @@ export const supportTopics = [
 
 export const contactInfo = {
   instagram: {
-    id: '@mazzev_official',
-    url: 'https://instagram.com/mazzev_official',
+    id: 'mazzev.official',
+    url: 'https://instagram.com/mazzev.official',
     label: 'Instagram',
   },
   facebook: {

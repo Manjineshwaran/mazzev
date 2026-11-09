@@ -13,8 +13,8 @@ const PHONE = '0764393211'
 const PHONE_INTL = '+46764393211'
 const EMAIL = 'info@mazzev.com'
 const WEB3FORMS_ACCESS_KEY = '7d810e2d-be5e-4358-a3bf-11b33cbbde80'
-const INSTAGRAM_URL = 'https://instagram.com/mazzev_official'
-const INSTAGRAM_ID = '@mazzev_official'
+const INSTAGRAM_URL = 'https://instagram.com/mazzev.official'
+const INSTAGRAM_ID = 'mazzev.official'
 const FACEBOOK_URL = 'https://facebook.com/mazzevofficial'
 const FACEBOOK_ID = 'facebook.com/mazzevofficial'
 const WHATSAPP_URL = 'https://wa.me/46764393211'
@@ -88,7 +88,7 @@ const STEPS = [
 const FAQ = [
   [
     'How do I order?',
-    `Send an email to ${EMAIL} or call ${PHONE} with the products you want. You can also reach us via Instagram ${INSTAGRAM_ID} or WhatsApp. The minimum order for snacks is 10 kg. We reply with details and delivery information.`,
+    `Send an email to ${EMAIL} or call ${PHONE} with the products you want. You can also reach us via Instagram (@${INSTAGRAM_ID}) or WhatsApp. The minimum order for snacks is 10 kg. We reply with details and delivery information.`,
   ],
   ['Where do the products come from?', 'They come from makers in India, sourced through a trusted partner.'],
   [
@@ -207,52 +207,56 @@ export default function App() {
 
   return (
     <>
-      {/* 1. TOP ANNOUNCEMENT & CONTACT BAR */}
-      <div className="bar">
-        <div className="wrap bar-inner">
-          <div className="bar-tagline">
-            <b>Wellness rooted in India</b> · Orders & Enquiries:
-            <a className="bar-link" href={`tel:${PHONE_INTL}`}>
-              <PhoneIcon size={13} /> {PHONE}
-            </a>
-            <span className="bar-sep">·</span>
-            <a className="bar-link" href={`mailto:${EMAIL}`}>
-              <MailIcon size={13} /> {EMAIL}
-            </a>
-          </div>
+      {/* 1. TOP ANNOUNCEMENT & CONTACT BAR - CONTINUOUS LOOP RUNNER */}
+      <div className="bar" aria-label="Announcements & Quick Contacts">
+        <div className="bar-marquee-track">
+          {[1, 2].map((loopIdx) => (
+            <div
+              key={loopIdx}
+              className="bar-marquee-content"
+              aria-hidden={loopIdx === 2 ? 'true' : undefined}
+            >
+              <span className="bar-marquee-item">
+                <b>Wellness rooted in India</b>
+              </span>
+              <span className="bar-dot-sep">✦</span>
 
-          <div className="bar-socials" aria-label="Official Social IDs">
-            <a
-              href={INSTAGRAM_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bar-social-item"
-              title={`Instagram: ${INSTAGRAM_ID}`}
-            >
-              <InstagramIcon size={13} />
-              <span>{INSTAGRAM_ID}</span>
-            </a>
-            <a
-              href={FACEBOOK_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bar-social-item"
-              title={`Facebook: ${FACEBOOK_ID}`}
-            >
-              <FacebookIcon size={13} />
-              <span>Facebook</span>
-            </a>
-            <a
-              href={WHATSAPP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bar-social-item bar-wa"
-              title={`WhatsApp: ${PHONE}`}
-            >
-              <WhatsAppIcon size={13} />
-              <span>WhatsApp</span>
-            </a>
-          </div>
+              <a className="bar-marquee-item" href={`tel:${PHONE_INTL}`}>
+                <PhoneIcon size={13} /> Orders &amp; Enquiries: <b>{PHONE}</b>
+              </a>
+              <span className="bar-dot-sep">✦</span>
+
+              <a className="bar-marquee-item" href={`mailto:${EMAIL}`}>
+                <MailIcon size={13} /> <b>{EMAIL}</b>
+              </a>
+              <span className="bar-dot-sep">✦</span>
+
+              <span className="bar-marquee-item">
+                Direct Wholesale &amp; Retail Sourcing
+              </span>
+              <span className="bar-dot-sep">✦</span>
+
+              <span className="bar-marquee-item">
+                Delivering across Europe
+              </span>
+              <span className="bar-dot-sep">✦</span>
+
+              <span className="bar-marquee-item">
+                Pure Cold-Pressed Oils · Traditional Snacks · Chikki · Handloom Textiles
+              </span>
+              <span className="bar-dot-sep">✦</span>
+
+              <a
+                className="bar-marquee-item"
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <WhatsAppIcon size={13} /> WhatsApp Orders: <b>{PHONE}</b>
+              </a>
+              <span className="bar-dot-sep">✦</span>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -268,27 +272,8 @@ export default function App() {
             <a href="#why">Why Mazzev</a>
             <a href="#how">How it works</a>
             <a href="#faq">FAQ</a>
+            <a href="#social">Social</a>
             <a href="#contact">Contact</a>
-            <a
-              href={INSTAGRAM_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="nav-social-icon"
-              title="Instagram"
-              aria-label="Instagram"
-            >
-              <InstagramIcon size={18} />
-            </a>
-            <a
-              href={FACEBOOK_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="nav-social-icon"
-              title="Facebook"
-              aria-label="Facebook"
-            >
-              <FacebookIcon size={18} />
-            </a>
           </nav>
         </div>
       </header>
@@ -453,7 +438,101 @@ export default function App() {
         </div>
       </section>
 
-      {/* 8. FOOTER & CONTACT */}
+      {/* 8. SOCIAL MEDIA CONTENT */}
+      <section id="social" className="social-section">
+        <div className="wrap">
+          <div className="section-head text-center">
+            <span className="section-badge">Join Our Community</span>
+            <h2>Follow Us on Social Media</h2>
+            <p className="lead">
+              Discover authentic Indian wellness stories, new batch arrivals, behind-the-scenes
+              sourcing, and customer updates on our official social channels.
+            </p>
+          </div>
+
+          <div className="social-cards-grid">
+            {/* Instagram Card */}
+            <div className="social-card social-card-insta">
+              <div className="social-card-top">
+                <div className="social-card-icon-wrap insta-bg">
+                  <InstagramIcon size={26} />
+                </div>
+                <div className="social-card-meta">
+                  <span className="social-platform">Instagram</span>
+                  <span className="social-handle">{INSTAGRAM_ID}</span>
+                </div>
+              </div>
+              <p className="social-card-desc">
+                Follow our daily stories, new product batches, traditional recipes, and visual edits
+                straight from Indian makers.
+              </p>
+              <a
+                href={INSTAGRAM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-btn insta-btn"
+              >
+                <InstagramIcon size={16} />
+                <span>Follow on Instagram</span>
+              </a>
+            </div>
+
+            {/* Facebook Card */}
+            <div className="social-card social-card-fb">
+              <div className="social-card-top">
+                <div className="social-card-icon-wrap fb-bg">
+                  <FacebookIcon size={26} />
+                </div>
+                <div className="social-card-meta">
+                  <span className="social-platform">Facebook</span>
+                  <span className="social-handle">{FACEBOOK_ID}</span>
+                </div>
+              </div>
+              <p className="social-card-desc">
+                Connect with our European trade community, read wholesale announcements, customer
+                reviews, and brand updates.
+              </p>
+              <a
+                href={FACEBOOK_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-btn fb-btn"
+              >
+                <FacebookIcon size={16} />
+                <span>Visit Facebook Page</span>
+              </a>
+            </div>
+
+            {/* WhatsApp Card */}
+            <div className="social-card social-card-wa">
+              <div className="social-card-top">
+                <div className="social-card-icon-wrap wa-bg">
+                  <WhatsAppIcon size={26} />
+                </div>
+                <div className="social-card-meta">
+                  <span className="social-platform">WhatsApp</span>
+                  <span className="social-handle">{PHONE}</span>
+                </div>
+              </div>
+              <p className="social-card-desc">
+                Message our team directly for instant quotes, wholesale orders, custom product
+                requests, and quick questions.
+              </p>
+              <a
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-btn wa-btn"
+              >
+                <WhatsAppIcon size={16} />
+                <span>Chat on WhatsApp</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 9. FOOTER & CONTACT */}
       <footer id="contact">
         <div className="wrap">
           <div className="cols">
@@ -519,8 +598,9 @@ export default function App() {
               <a href="#why">Why Mazzev</a>
               <a href="#how">How it works</a>
               <a href="#faq">Questions</a>
+              <a href="#social">Social Media</a>
               <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
-                Instagram Page ↗
+                Instagram ({INSTAGRAM_ID}) ↗
               </a>
               <a href={FACEBOOK_URL} target="_blank" rel="noopener noreferrer">
                 Facebook Page ↗
