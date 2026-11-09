@@ -378,30 +378,6 @@ export default function App() {
       <section id="shop">
         <div className="wrap">
           <div className="shop">
-            <aside aria-label="Categories">
-              <h3 className="ct">Categories</h3>
-              <ul className="cats">
-                {CATEGORIES.map((c) => {
-                  const count =
-                    c.id === 'all'
-                      ? PRODUCTS.length
-                      : PRODUCTS.filter((p) => p.cat === c.id).length
-                  return (
-                    <li key={c.id}>
-                      <button
-                        type="button"
-                        aria-pressed={active === c.id}
-                        onClick={() => setActive(c.id)}
-                      >
-                        <span>{c.label}</span>
-                        <span className="cat-count">{count}</span>
-                      </button>
-                    </li>
-                  )
-                })}
-              </ul>
-            </aside>
-
             <div className="shop-content">
               <div className="count">
                 Showing {shown.length} {shown.length === 1 ? 'product' : 'products'}
