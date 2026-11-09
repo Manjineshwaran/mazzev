@@ -107,6 +107,7 @@ function Product({ cat, name, desc }) {
         <span className="cat">{getCatLabel(cat)}</span>
         <h3>{name}</h3>
         <p>{desc}</p>
+        <p className="item-min">Minimum order: 10 kg</p>
       </div>
     </div>
   )
@@ -151,7 +152,8 @@ export default function App() {
     const contact = String(data.get('contact') || '').trim()
     const quantity = String(data.get('quantity') || '').trim()
     const message = String(data.get('message') || '').trim()
-    const product = enquiryModal?.name || 'Product'
+    const product =
+      String(data.get('product') || '').trim() || enquiryModal?.name || 'Product'
     const emailLike = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact)
 
     setEnquiryStatus('sending')
@@ -651,32 +653,6 @@ export default function App() {
               </div>
             ) : (
               <>
-                <div className="modal-channels">
-                  <div className="modal-channel-title">Direct Order & Enquiry Channels:</div>
-                  <div className="modal-channel-buttons">
-                    <a
-                      className="channel-btn email-btn"
-                      href={`mailto:${EMAIL}?subject=${enquiryModal.subject}`}
-                    >
-                      <MailIcon size={16} />
-                      <span>Email ({EMAIL})</span>
-                    </a>
-                    <a
-                      className="channel-btn wa-btn"
-                      href={`${WHATSAPP_URL}?text=${encodeURIComponent(`Hello, I would like to enquire about ${enquiryModal.name}.`)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <WhatsAppIcon size={16} />
-                      <span>WhatsApp ({PHONE})</span>
-                    </a>
-                    <a className="channel-btn tel-btn" href={`tel:${PHONE_INTL}`}>
-                      <PhoneIcon size={16} />
-                      <span>Call ({PHONE})</span>
-                    </a>
-                  </div>
-                </div>
-
                 <form className="modal-form" onSubmit={handleSendEnquiry}>
                   <label htmlFor="enquiry-name">Your Name</label>
                   <input id="enquiry-name" name="name" required placeholder="Name or Company" />
@@ -688,6 +664,19 @@ export default function App() {
                     required
                     placeholder="email@example.com or phone number"
                   />
+
+                  <label htmlFor="enquiry-product">Product</label>
+                  <select id="enquiry-product" name="product" required defaultValue="">
+                    <option value="" disabled>
+                      Select a product
+                    </option>
+                    {PRODUCTS.map((p) => (
+                      <option key={p.name} value={p.name}>
+                        {p.name}
+                      </option>
+                    ))}
+                    <option value="Other / not listed">Other / not listed</option>
+                  </select>
 
                   <label htmlFor="enquiry-quantity">Estimated Quantity</label>
                   <input
