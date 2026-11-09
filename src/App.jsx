@@ -116,6 +116,7 @@ function Product({ cat, name, desc }) {
 export default function App() {
   const [active, setActive] = useState('all')
   const [search, setSearch] = useState('')
+  const [lang, setLang] = useState('en')
   const [enquiryModal, setEnquiryModal] = useState(null)
   const [enquiryStatus, setEnquiryStatus] = useState('idle')
   const [enquiryError, setEnquiryError] = useState('')
@@ -280,6 +281,38 @@ export default function App() {
             </a>
             <a href="#why">About us</a>
           </nav>
+
+          <div className="header-tools">
+            <div className="header-search">
+              <SearchIcon size={15} className="shop-search-icon" />
+              <input
+                type="search"
+                placeholder="Search products…"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                aria-label="Search products"
+              />
+            </div>
+            <select
+              className="lang-select"
+              value={lang}
+              onChange={(e) => setLang(e.target.value)}
+              aria-label="Select language"
+            >
+              <option value="en">English</option>
+              <option value="sv">Svenska</option>
+              <option value="de">Deutsch</option>
+              <option value="fr">Français</option>
+              <option value="es">Español</option>
+              <option value="it">Italiano</option>
+              <option value="nl">Nederlands</option>
+              <option value="pl">Polski</option>
+              <option value="pt">Português</option>
+              <option value="hi">हिन्दी</option>
+              <option value="ta">தமிழ்</option>
+              <option value="te">తెలుగు</option>
+            </select>
+          </div>
         </div>
       </header>
 

@@ -214,6 +214,56 @@ nav a:hover {
   color: var(--ink);
 }
 
+.header-tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.header-search .shop-search-icon {
+  left: 10px;
+}
+
+.header-search input {
+  width: 280px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--ink);
+  padding: 10px 14px 10px 36px;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.header-search input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(47, 95, 168, 0.15);
+}
+
+.lang-select {
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--ink);
+  padding: 8px 10px;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+}
+
+.lang-select:focus {
+  border-color: var(--blue);
+}
+
 .nav-social-icon {
   display: inline-flex;
   align-items: center;
@@ -1190,6 +1240,10 @@ footer .big {
 
   nav a {
     margin-right: 14px;
+  }
+
+  .header-search input {
+    width: 160px;
   }
 }
 
