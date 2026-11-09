@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   CloseIcon,
   FacebookIcon,
@@ -121,6 +121,15 @@ export default function App() {
   const [enquiryModal, setEnquiryModal] = useState(null)
   const [enquiryStatus, setEnquiryStatus] = useState('idle')
   const [enquiryError, setEnquiryError] = useState('')
+  const [showTop, setShowTop] = useState(false)
+
+  useEffect(() => {
+    function onScroll() {
+      setShowTop(window.scrollY > 400)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   const shown = useMemo(() => {
     return PRODUCTS.filter((p) => {
@@ -654,6 +663,17 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      {showTop && (
+        <button
+          type="button"
+          className="back-to-top"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          aria-label="Back to top"
+        >
+          ↑
+        </button>
+      )}
 
       {/* 9. PRODUCT ENQUIRY MODAL */}
       {enquiryModal && (

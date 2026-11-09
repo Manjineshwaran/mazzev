@@ -1105,6 +1105,29 @@ footer .big {
   background: var(--blue-hover);
 }
 
+.back-to-top {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: none;
+  background: var(--blue);
+  color: #fff;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(16, 42, 61, 0.25);
+  z-index: 80;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.back-to-top:hover {
+  background: var(--blue-hover);
+  transform: translateY(-2px);
+}
+
 .modal-form {
   display: flex;
   flex-direction: column;
