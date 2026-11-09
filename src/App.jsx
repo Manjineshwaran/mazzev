@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   CloseIcon,
   FacebookIcon,
@@ -251,8 +251,7 @@ function CategoryVisual({ catId }) {
   }
 }
 
-function Product({ cat, name, desc, onEnquire }) {
-  const subject = encodeURIComponent(`${name} enquiry`)
+function Product({ cat, name, desc }) {
   return (
     <div className="item">
       <div className="pic">{name}</div>
@@ -262,15 +261,6 @@ function Product({ cat, name, desc, onEnquire }) {
         <p>{desc}</p>
         <div className="item-foot">
           <span className="item-min">Minimum order: 10 kg</span>
-          {onEnquire && (
-            <button
-              type="button"
-              className="btn item-enquire-btn"
-              onClick={() => onEnquire({ cat, name, desc, subject })}
-            >
-              Enquire
-            </button>
-          )}
         </div>
       </div>
     </div>
@@ -295,17 +285,16 @@ export default function App() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const shown = useMemo(() => {
-    return PRODUCTS.filter((p) => {
-      const matchCat = active === 'all' || p.cat === active
-      const matchSearch =
-        !search.trim() ||
-        p.name.toLowerCase().includes(search.toLowerCase()) ||
-        p.desc.toLowerCase().includes(search.toLowerCase()) ||
-        getCatLabel(p.cat).toLowerCase().includes(search.toLowerCase())
-      return matchCat && matchSearch
-    })
-  }, [active, search])
+  const searchResults = search.trim()
+    ? PRODUCTS.filter((p) => {
+        const q = search.toLowerCase()
+        return (
+          p.name.toLowerCase().includes(q) ||
+          p.desc.toLowerCase().includes(q) ||
+          getCatLabel(p.cat).toLowerCase().includes(q)
+        )
+      })
+    : []
 
   function openEnquiry(item) {
     setEnquiryStatus('idle')
@@ -465,7 +454,7 @@ export default function App() {
                       onClick={() => {
                         setActive(c.id)
                         setShopMenuOpen(false)
-                        document.getElementById('category-contents')?.scrollIntoView({ behavior: 'smooth' })
+                        document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' })
                       }}
                     >
                       {c.label}
@@ -595,28 +584,37 @@ export default function App() {
           <div className="category-boxes-grid">
             {CATEGORIES.filter((c) => c.id !== 'all').map((cat) => {
               const catCount = PRODUCTS.filter((p) => p.cat === cat.id).length
-              const isSelected = active === cat.id
+              const isOpen = active === cat.id
+              const catProducts = PRODUCTS.filter((p) => {
+                if (p.cat !== cat.id) return false
+                if (!search.trim()) return true
+                const q = search.toLowerCase()
+                return (
+                  p.name.toLowerCase().includes(q) ||
+                  p.desc.toLowerCase().includes(q)
+                )
+              })
               return (
                 <div
                   key={cat.id}
-                  className={`cat-box ${isSelected ? 'active' : ''}`}
+                  className={`cat-box ${isOpen ? 'open' : ''}`}
                   role="button"
                   tabIndex={0}
-                  onClick={() => {
-                    setActive(cat.id)
-                    document.getElementById('category-contents')?.scrollIntoView({ behavior: 'smooth' })
-                  }}
+                  onClick={() => setActive(isOpen ? 'all' : cat.id)}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
-                      setActive(cat.id)
-                      document.getElementById('category-contents')?.scrollIntoView({ behavior: 'smooth' })
+                      e.preventDefault()
+                      setActive(isOpen ? 'all' : cat.id)
                     }
                   }}
-                  aria-pressed={isSelected}
-                  title={`View ${cat.label}`}
+                  aria-expanded={isOpen}
+                  title={isOpen ? `Close ${cat.label}` : `View ${cat.label}`}
                 >
                   <div className="cat-box-header">
                     <span>{cat.label}</span>
+                    <span className="cat-box-chevron" aria-hidden="true">
+                      {isOpen ? '▴' : '▾'}
+                    </span>
                   </div>
                   <div className="cat-box-body">
                     <CategoryVisual catId={cat.id} />
@@ -624,81 +622,47 @@ export default function App() {
                       {catCount > 0 ? `${catCount} ${catCount === 1 ? 'item' : 'items'}` : 'Wholesale available'}
                     </span>
                   </div>
+                  {isOpen && (
+                    <div className="cat-box-products">
+                      {catProducts.length === 0 ? (
+                        <p className="cat-group-empty">
+                          No products in this category yet.
+                        </p>
+                      ) : (
+                        catProducts.map((p) => (
+                          <Product key={p.name} {...p} />
+                        ))
+                      )}
+                    </div>
+                  )}
                 </div>
               )
             })}
           </div>
 
-          {/* CATEGORY CONTENTS BELOW BOXES (Matching example photo layout) */}
-          <div id="category-contents" className="cat-contents-area">
-            <div className="cat-contents-head">
-              <div>
-                <span className="cat-contents-badge">Category Contents</span>
-                <h3 className="cat-contents-title">
-                  {active === 'all' ? 'All Products' : getCatLabel(active)}
-                </h3>
-                <p className="cat-contents-sub">
-                  Showing {shown.length} {shown.length === 1 ? 'product' : 'products'}
-                  {search.trim() && ` matching "${search}"`}
+          {/* SEARCH RESULTS */}
+          {search.trim() && (
+            <div className="search-results">
+              {searchResults.length === 0 ? (
+                <p className="cat-group-empty">
+                  No products found matching &quot;{search}&quot;.
                 </p>
-              </div>
-
-              {active !== 'all' && (
-                <button
-                  type="button"
-                  className="view-all-pill"
-                  onClick={() => setActive('all')}
-                >
-                  View All Categories ({PRODUCTS.length}) ✕
-                </button>
+              ) : (
+                <>
+                  <p className="cat-contents-sub">
+                    Showing {searchResults.length}{' '}
+                    {searchResults.length === 1 ? 'product' : 'products'} matching
+                    &quot;{search}&quot;
+                  </p>
+                  <div className="cat-box-products">
+                    {searchResults.map((p) => (
+                      <Product key={p.name} {...p} />
+                    ))}
+                  </div>
+                </>
               )}
             </div>
-
-            {shown.length === 0 ? (
-              <div className="cat-empty-card">
-                <h4>Custom Wholesale Sourcing for {getCatLabel(active)}</h4>
-                <p>
-                  We are currently onboarding verified makers for this category. As a direct
-                  cross-border partner, we source custom batches of {getCatLabel(active).toLowerCase()} directly from India for European wholesale orders.
-                </p>
-                <div className="cat-empty-actions">
-                  <button
-                    type="button"
-                    className="btn"
-                    onClick={() =>
-                      openEnquiry({
-                        cat: active,
-                        name: `${getCatLabel(active)} sourcing enquiry`,
-                        desc: `Custom sourcing and pricing enquiry for ${getCatLabel(active)}.`,
-                        subject: `${getCatLabel(active)} sourcing enquiry`,
-                      })
-                    }
-                  >
-                    Request Custom Quote
-                  </button>
-                  {active !== 'all' && (
-                    <button
-                      type="button"
-                      className="btn secondary"
-                      onClick={() => setActive('all')}
-                    >
-                      Browse Other Categories
-                    </button>
-                  )}
-                </div>
-              </div>
-            ) : (
-              <div className="grid">
-                {shown.map((p) => (
-                  <Product
-                    key={p.name}
-                    {...p}
-                    onEnquire={openEnquiry}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
+          )}
         </div>
       </section>
 
