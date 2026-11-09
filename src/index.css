@@ -378,6 +378,8 @@ h3 {
   flex-shrink: 0;
   transform-origin: 50% 100%;
   animation: peacock-sway 6s ease-in-out infinite;
+  /* Knock out the GIF's solid black background against the blue hero */
+  mix-blend-mode: screen;
   filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.25));
 }
 
@@ -783,6 +785,12 @@ h2 {
   align-items: center;
   justify-content: center;
   padding: 14px;
+  overflow: hidden;
+}
+
+.cat-box-body:has(.cat-photo) {
+  background: #fff;
+  padding: 0;
 }
 
 .cat-svg {
@@ -793,8 +801,17 @@ h2 {
   transition: transform 0.25s ease;
 }
 
-.cat-box:hover .cat-svg {
-  transform: scale(1.06);
+.cat-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.25s ease;
+}
+
+.cat-box:hover .cat-svg,
+.cat-box:hover .cat-photo {
+  transform: scale(1.04);
 }
 
 .cat-box-count {
@@ -981,7 +998,9 @@ h2 {
 
 .item .pic {
   background: var(--tint);
-  height: 150px;
+  aspect-ratio: 4 / 3;
+  height: auto;
+  min-height: 150px;
   padding: 0 14px;
   text-align: center;
   display: flex;
@@ -990,6 +1009,19 @@ h2 {
   font: 500 22px "Newsreader", Georgia, serif;
   color: var(--blue);
   line-height: 1.25;
+  overflow: hidden;
+}
+
+.item .pic.has-image {
+  padding: 0;
+  background: #fff;
+}
+
+.item .pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -1845,10 +1877,14 @@ details p {
   }
 
   .item .pic {
-    height: 110px;
+    min-height: 110px;
     font-size: 19px;
     text-align: center;
     padding: 0 8px;
+  }
+
+  .item .pic.has-image {
+    padding: 0;
   }
 
   .item div.t {

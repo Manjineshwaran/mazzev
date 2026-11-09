@@ -128,30 +128,33 @@ function ShieldCheckIcon({ className = '', size = 18 }) {
   )
 }
 
+const CATEGORY_IMAGES = {
+  snacks: '/products/category-snacks.jpg',
+  rice: '/products/category-rice.jpg',
+  oil: '/products/category-oil.jpg',
+  vegetables: '/products/category-vegetables.jpg',
+  textile: '/products/category-textile.jpg',
+  'home-decor': '/products/category-home-decor.jpg',
+  lifestyle: '/products/category-lifestyle.jpg',
+  toys: '/products/category-toys.jpg',
+  cosmetics: '/products/category-cosmetics.jpg',
+}
+
 function CategoryVisual({ catId }) {
+  if (CATEGORY_IMAGES[catId]) {
+    return (
+      <img
+        className="cat-photo"
+        src={CATEGORY_IMAGES[catId]}
+        alt=""
+        loading="lazy"
+        width="640"
+        height="480"
+      />
+    )
+  }
+
   switch (catId) {
-    case 'snacks':
-      return (
-        <svg viewBox="0 0 160 120" className="cat-svg" aria-hidden="true">
-          <rect x="25" y="35" width="65" height="45" rx="6" fill="#C27803" stroke="#8C4E03" strokeWidth="2" />
-          <circle cx="40" cy="50" r="5" fill="#E8B923" />
-          <circle cx="65" cy="48" r="6" fill="#F4D068" />
-          <circle cx="50" cy="65" r="5" fill="#E8B923" />
-          <circle cx="75" cy="65" r="5" fill="#F4D068" />
-          <rect x="65" y="20" width="70" height="48" rx="6" fill="#D98A0F" stroke="#8C4E03" strokeWidth="2" />
-          <circle cx="85" cy="35" r="6" fill="#FDE047" />
-          <circle cx="110" cy="38" r="5" fill="#E8B923" />
-          <circle cx="95" cy="52" r="6" fill="#FDE047" />
-          <circle cx="120" cy="52" r="5" fill="#E8B923" />
-          <circle cx="45" cy="92" r="16" fill="#F59E0B" stroke="#B45309" strokeWidth="2" />
-          <circle cx="42" cy="87" r="2" fill="#FEF3C7" />
-          <circle cx="48" cy="90" r="2" fill="#FEF3C7" />
-          <circle cx="44" cy="96" r="2" fill="#FEF3C7" />
-          <rect x="105" y="65" width="34" height="42" rx="4" fill="#FBBF24" stroke="#B45309" strokeWidth="2" />
-          <rect x="109" y="58" width="26" height="7" rx="2" fill="#D97706" />
-          <circle cx="122" cy="84" r="7" fill="#FEF08A" />
-        </svg>
-      )
     case 'rice':
       return (
         <svg viewBox="0 0 160 120" className="cat-svg" aria-hidden="true">
@@ -251,10 +254,62 @@ function CategoryVisual({ catId }) {
   }
 }
 
+const PRODUCT_IMAGES = {
+  'Sesame oil': '/products/sesame-oil.jpg',
+  'Groundnut oil': '/products/groundnut-oil.jpg',
+  'Coconut oil': '/products/coconut-oil.jpg',
+  Rice: '/products/rice.jpg',
+  'Small peanut bar': '/products/peanut-bar-small.jpg',
+  'Regular peanut bar': '/products/peanut-bar-regular.jpg',
+  'Regular crushed peanut bar': '/products/peanut-bar-regular-crushed.jpg',
+  'Large peanut bar': '/products/peanut-bar-large.jpg',
+  'Large crushed peanut bar': '/products/peanut-bar-large-crushed.jpg',
+  'Peanut family pack': '/products/peanut-family-pack.jpg',
+  'Regular peanut bar (20 pcs)': '/products/peanut-bar-20pcs.jpg',
+  'Small peanut bar pack (20 pcs)': '/products/peanut-bar-20pcs.jpg',
+  'Peanut balls pack': '/products/peanut-balls-pack.jpg',
+  'White sesame balls pack': '/products/white-sesame-balls-pack.jpg',
+  'Black sesame balls pack': '/products/black-sesame-balls-pack.jpg',
+  'Puffed rice balls pack': '/products/puffed-rice-balls-pack.jpg',
+  'Roasted gram ball pack': '/products/roasted-gram-balls-pack.jpg',
+  'Peanut round': '/products/peanut-round.jpg',
+  'White sesame round': '/products/white-sesame-round.jpg',
+  'Black sesame round': '/products/black-sesame-round.jpg',
+  'Peanut sliced candy pack': '/products/peanut-sliced-candy-pack.jpg',
+  'Crushed peanut sliced candy pack': '/products/crushed-peanut-sliced-candy-pack.jpg',
+  'Peanut sliced candy box': '/products/peanut-sliced-candy-box.jpg',
+  'White sesame sliced candy box': '/products/white-sesame-sliced-candy-box.jpg',
+  'Black sesame sliced candy box': '/products/black-sesame-sliced-candy-box.jpg',
+  'Peanut balls PET jar': '/products/peanut-balls-jar.jpg',
+  'White sesame balls PET jar': '/products/white-sesame-balls-jar.jpg',
+  'Black sesame balls PET jar': '/products/black-sesame-balls-jar.jpg',
+  'Roasted gram balls PET jar': '/products/roasted-gram-balls-jar.jpg',
+  'Peanut sliced candy PET jar': '/products/peanut-sliced-candy-jar.jpg',
+  'Peanut candy jar': '/products/peanut-candy-jar.jpg',
+  'Crushed peanut candy PET jar': '/products/crushed-peanut-candy-jar.jpg',
+  'Small peanut bar jar': '/products/small-peanut-bar-jar.jpg',
+  'Small crushed peanut bar jar': '/products/small-crushed-peanut-bar-jar.jpg',
+  'Small black sesame bar jar': '/products/small-black-sesame-bar-jar.jpg',
+  'Cotton mesh bags': '/products/cotton-mesh-bags.jpg',
+  'Wooden teether rattle': '/products/wooden-teether.jpg',
+}
+
+function getProductImage(name = '') {
+  return PRODUCT_IMAGES[name] || null
+}
+
 function Product({ cat, name, desc }) {
+  const image = getProductImage(name)
+
   return (
     <div className="item">
-      <div className="pic">{name}</div>
+      <div className={`pic${image ? ' has-image' : ''}`}>
+        {image ? (
+          <img src={image} alt={name} loading="lazy" width="640" height="480" />
+        ) : (
+          name
+        )}
+      </div>
       <div className="t">
         <span className="cat">{getCatLabel(cat)}</span>
         <h3>{name}</h3>
