@@ -527,11 +527,10 @@
     <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Toggle navigation">☰</button>
     <nav class="main-nav" id="mainNav" aria-label="Main navigation">
       <ul>
+        <li><a href="#top">Home</a></li>
         <li><a href="#shop">Shop</a></li>
-        <li><a href="#why">Why Mazzev</a></li>
-        <li><a href="#faq">FAQ</a></li>
-        <li><a href="#enquiry">Enquire</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#enquiry">Enquiry</a></li>
+        <li><a href="#why">About us</a></li>
       </ul>
     </nav>
   </div>
@@ -749,11 +748,10 @@
       <div class="footer-links">
         <h4>Quick Links</h4>
         <ul>
+          <li><a href="#top">Home</a></li>
           <li><a href="#shop">Shop</a></li>
-          <li><a href="#why">Why Mazzev</a></li>
-          <li><a href="#faq">FAQ</a></li>
-          <li><a href="#enquiry">Enquire</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="#enquiry">Enquiry</a></li>
+          <li><a href="#why">About us</a></li>
         </ul>
       </div>
     </div>
@@ -806,7 +804,6 @@
           '<span class="product-cat">' + p.label + '</span>' +
           '<h3>' + p.name + '</h3>' +
           '<p>' + p.desc + '</p>' +
-          '<button class="btn btn-enquire" type="button" data-product="' + p.name + '">Enquire</button>' +
         '</div>' +
       '</article>';
     }).join('');
@@ -826,14 +823,6 @@
   var enquiryForm = document.getElementById('enquiryForm');
   var productInput = document.getElementById('f-product');
   var formStatus = document.getElementById('formStatus');
-
-  grid.addEventListener('click', function (e) {
-    var btn = e.target.closest('.btn-enquire');
-    if (!btn) return;
-    productInput.value = btn.getAttribute('data-product');
-    document.getElementById('enquiry').scrollIntoView({ behavior: 'smooth' });
-    document.getElementById('f-name').focus({ preventScroll: true });
-  });
 
   enquiryForm.addEventListener('submit', function (e) {
     e.preventDefault();

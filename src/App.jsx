@@ -99,8 +99,7 @@ const FAQ = [
 
 const getCatLabel = (id) => CATEGORIES.find((c) => c.id === id)?.label ?? ''
 
-function Product({ cat, name, desc, onEnquire }) {
-  const subject = encodeURIComponent(`${name} enquiry`)
+function Product({ cat, name, desc }) {
   return (
     <div className="item">
       <div className="pic">{name}</div>
@@ -108,13 +107,6 @@ function Product({ cat, name, desc, onEnquire }) {
         <span className="cat">{getCatLabel(cat)}</span>
         <h3>{name}</h3>
         <p>{desc}</p>
-        <button
-          type="button"
-          className="btn"
-          onClick={() => onEnquire({ cat, name, desc, subject })}
-        >
-          Enquire
-        </button>
       </div>
     </div>
   )
@@ -268,12 +260,23 @@ export default function App() {
             Mazzev
           </a>
           <nav aria-label="Main">
+            <a href="#top">Home</a>
             <a href="#shop">Shop</a>
-            <a href="#why">Why Mazzev</a>
-            <a href="#how">How it works</a>
-            <a href="#faq">FAQ</a>
-            <a href="#social">Social</a>
-            <a href="#contact">Contact</a>
+            <a
+              href="#enquiry"
+              onClick={(e) => {
+                e.preventDefault()
+                openEnquiry({
+                  cat: 'general',
+                  name: 'General enquiry',
+                  desc: 'Tell us which products you are interested in.',
+                  subject: 'General enquiry',
+                })
+              }}
+            >
+              Enquiry
+            </a>
+            <a href="#why">About us</a>
           </nav>
         </div>
       </header>
@@ -382,7 +385,6 @@ export default function App() {
                     <Product
                       key={p.name}
                       {...p}
-                      onEnquire={openEnquiry}
                     />
                   ))}
                 </div>
