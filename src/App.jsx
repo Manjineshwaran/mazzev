@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   CloseIcon,
   FacebookIcon,
@@ -33,43 +33,43 @@ const CATEGORIES = [
 ]
 
 const PRODUCTS = [
-  { cat: 'oil', name: 'Sesame oil', desc: 'For cooking, massage and daily wellness.' },
-  { cat: 'oil', name: 'Groundnut oil', desc: 'An everyday cooking oil for frying and sautéing.' },
-  { cat: 'oil', name: 'Coconut oil', desc: 'For cooking, hair and skin care.' },
-  { cat: 'rice', name: 'Rice', desc: 'A staple Indian rice for everyday meals.' },
-  { cat: 'snacks', name: 'Small peanut bar', desc: 'Minimum order 10 kg.' },
-  { cat: 'snacks', name: 'Regular peanut bar', desc: 'Minimum order 10 kg.' },
-  { cat: 'snacks', name: 'Regular crushed peanut bar', desc: 'Minimum order 10 kg.' },
-  { cat: 'snacks', name: 'Large peanut bar', desc: 'Minimum order 10 kg.' },
-  { cat: 'snacks', name: 'Large crushed peanut bar', desc: 'Minimum order 10 kg.' },
-  { cat: 'snacks', name: 'Peanut family pack', desc: 'Minimum order 10 kg.' },
-  { cat: 'snacks', name: 'Regular peanut bar (20 pcs)', desc: 'Minimum order 10 kg.' },
-  { cat: 'snacks', name: 'Small peanut bar pack (20 pcs)', desc: 'Minimum order 10 kg.' },
-  { cat: 'snacks', name: 'Peanut balls pack', desc: 'Minimum order 10 kg.' },
-  { cat: 'snacks', name: 'White sesame balls pack', desc: 'Minimum order 10 kg.' },
-  { cat: 'snacks', name: 'Black sesame balls pack', desc: 'Minimum order 10 kg.' },
-  { cat: 'snacks', name: 'Puffed rice balls pack', desc: 'Minimum order 10 kg.' },
-  { cat: 'snacks', name: 'Roasted gram ball pack', desc: 'Minimum order 10 kg.' },
-  { cat: 'snacks', name: 'Peanut round', desc: 'Minimum order 10 kg.' },
-  { cat: 'snacks', name: 'White sesame round', desc: 'Minimum order 10 kg.' },
-  { cat: 'snacks', name: 'Black sesame round', desc: 'Minimum order 10 kg.' },
-  { cat: 'snacks', name: 'Peanut sliced candy pack', desc: 'Minimum order 10 kg.' },
-  { cat: 'snacks', name: 'Crushed peanut sliced candy pack', desc: 'Minimum order 10 kg.' },
-  { cat: 'snacks', name: 'Peanut sliced candy box', desc: 'Minimum order 10 kg.' },
-  { cat: 'snacks', name: 'White sesame sliced candy box', desc: 'Minimum order 10 kg.' },
-  { cat: 'snacks', name: 'Black sesame sliced candy box', desc: 'Minimum order 10 kg.' },
-  { cat: 'snacks', name: 'Peanut balls PET jar', desc: 'Minimum order 10 kg.' },
-  { cat: 'snacks', name: 'White sesame balls PET jar', desc: 'Minimum order 10 kg.' },
-  { cat: 'snacks', name: 'Black sesame balls PET jar', desc: 'Minimum order 10 kg.' },
-  { cat: 'snacks', name: 'Roasted gram balls PET jar', desc: 'Minimum order 10 kg.' },
-  { cat: 'snacks', name: 'Peanut sliced candy PET jar', desc: 'Minimum order 10 kg.' },
-  { cat: 'snacks', name: 'Peanut candy jar', desc: 'Minimum order 10 kg.' },
-  { cat: 'snacks', name: 'Crushed peanut candy PET jar', desc: 'Minimum order 10 kg.' },
-  { cat: 'snacks', name: 'Small peanut bar jar', desc: 'Minimum order 10 kg.' },
-  { cat: 'snacks', name: 'Small crushed peanut bar jar', desc: 'Minimum order 10 kg.' },
-  { cat: 'snacks', name: 'Small black sesame bar jar', desc: 'Minimum order 10 kg.' },
-  { cat: 'textile', name: 'Cotton mesh bags', desc: 'Reusable cotton mesh bags for shopping and storage.' },
-  { cat: 'toys', name: 'Wooden teether rattle', desc: 'A wooden teether and rattle toy that makes a gentle sound.' },
+  { cat: 'oil', name: 'Sesame oil', desc: 'For cooking, massage and daily wellness.', code: 'MZ-001', pack: '500 ml', tags: ['Oil', 'Indian food', 'Cooking'] },
+  { cat: 'oil', name: 'Groundnut oil', desc: 'An everyday cooking oil for frying and sautéing.', code: 'MZ-002', pack: '500 ml', tags: ['Oil', 'Indian food', 'Cooking'] },
+  { cat: 'oil', name: 'Coconut oil', desc: 'For cooking, hair and skin care.', code: 'MZ-003', pack: '500 ml', tags: ['Oil', 'Indian food', 'Hair & skin'] },
+  { cat: 'rice', name: 'Rice', desc: 'A staple Indian rice for everyday meals.', code: 'MZ-004', pack: '25 kg bag', tags: ['Rice', 'Indian food', 'Staple'] },
+  { cat: 'snacks', name: 'Small peanut bar', desc: 'Minimum order 10 kg.', code: 'MZ-005', pack: '10 kg', tags: ['Snacks', 'Indian food', 'Peanut'] },
+  { cat: 'snacks', name: 'Regular peanut bar', desc: 'Minimum order 10 kg.', code: 'MZ-006', pack: '10 kg', tags: ['Snacks', 'Indian food', 'Peanut'] },
+  { cat: 'snacks', name: 'Regular crushed peanut bar', desc: 'Minimum order 10 kg.', code: 'MZ-007', pack: '10 kg', tags: ['Snacks', 'Indian food', 'Peanut'] },
+  { cat: 'snacks', name: 'Large peanut bar', desc: 'Minimum order 10 kg.', code: 'MZ-008', pack: '10 kg', tags: ['Snacks', 'Indian food', 'Peanut'] },
+  { cat: 'snacks', name: 'Large crushed peanut bar', desc: 'Minimum order 10 kg.', code: 'MZ-009', pack: '10 kg', tags: ['Snacks', 'Indian food', 'Peanut'] },
+  { cat: 'snacks', name: 'Peanut family pack', desc: 'Minimum order 10 kg.', code: 'MZ-010', pack: '10 kg', tags: ['Snacks', 'Indian food', 'Peanut'] },
+  { cat: 'snacks', name: 'Regular peanut bar (20 pcs)', desc: 'Minimum order 10 kg.', code: 'MZ-011', pack: '10 kg', tags: ['Snacks', 'Indian food', 'Peanut'] },
+  { cat: 'snacks', name: 'Small peanut bar pack (20 pcs)', desc: 'Minimum order 10 kg.', code: 'MZ-012', pack: '10 kg', tags: ['Snacks', 'Indian food', 'Peanut'] },
+  { cat: 'snacks', name: 'Peanut balls pack', desc: 'Minimum order 10 kg.', code: 'MZ-013', pack: '10 kg', tags: ['Snacks', 'Indian food', 'Peanut'] },
+  { cat: 'snacks', name: 'White sesame balls pack', desc: 'Minimum order 10 kg.', code: 'MZ-014', pack: '10 kg', tags: ['Snacks', 'Indian food', 'Sesame'] },
+  { cat: 'snacks', name: 'Black sesame balls pack', desc: 'Minimum order 10 kg.', code: 'MZ-015', pack: '10 kg', tags: ['Snacks', 'Indian food', 'Sesame'] },
+  { cat: 'snacks', name: 'Puffed rice balls pack', desc: 'Minimum order 10 kg.', code: 'MZ-016', pack: '10 kg', tags: ['Snacks', 'Indian food', 'Puffed rice'] },
+  { cat: 'snacks', name: 'Roasted gram ball pack', desc: 'Minimum order 10 kg.', code: 'MZ-017', pack: '10 kg', tags: ['Snacks', 'Indian food', 'Roasted gram'] },
+  { cat: 'snacks', name: 'Peanut round', desc: 'Minimum order 10 kg.', code: 'MZ-018', pack: '10 kg', tags: ['Snacks', 'Indian food', 'Peanut'] },
+  { cat: 'snacks', name: 'White sesame round', desc: 'Minimum order 10 kg.', code: 'MZ-019', pack: '10 kg', tags: ['Snacks', 'Indian food', 'Sesame'] },
+  { cat: 'snacks', name: 'Black sesame round', desc: 'Minimum order 10 kg.', code: 'MZ-020', pack: '10 kg', tags: ['Snacks', 'Indian food', 'Sesame'] },
+  { cat: 'snacks', name: 'Peanut sliced candy pack', desc: 'Minimum order 10 kg.', code: 'MZ-021', pack: '10 kg', tags: ['Snacks', 'Indian food', 'Peanut'] },
+  { cat: 'snacks', name: 'Crushed peanut sliced candy pack', desc: 'Minimum order 10 kg.', code: 'MZ-022', pack: '10 kg', tags: ['Snacks', 'Indian food', 'Peanut'] },
+  { cat: 'snacks', name: 'Peanut sliced candy box', desc: 'Minimum order 10 kg.', code: 'MZ-023', pack: '10 kg', tags: ['Snacks', 'Indian food', 'Peanut'] },
+  { cat: 'snacks', name: 'White sesame sliced candy box', desc: 'Minimum order 10 kg.', code: 'MZ-024', pack: '10 kg', tags: ['Snacks', 'Indian food', 'Sesame'] },
+  { cat: 'snacks', name: 'Black sesame sliced candy box', desc: 'Minimum order 10 kg.', code: 'MZ-025', pack: '10 kg', tags: ['Snacks', 'Indian food', 'Sesame'] },
+  { cat: 'snacks', name: 'Peanut balls PET jar', desc: 'Minimum order 10 kg.', code: 'MZ-026', pack: 'PET jar', tags: ['Snacks', 'Indian food', 'Peanut'] },
+  { cat: 'snacks', name: 'White sesame balls PET jar', desc: 'Minimum order 10 kg.', code: 'MZ-027', pack: 'PET jar', tags: ['Snacks', 'Indian food', 'Sesame'] },
+  { cat: 'snacks', name: 'Black sesame balls PET jar', desc: 'Minimum order 10 kg.', code: 'MZ-028', pack: 'PET jar', tags: ['Snacks', 'Indian food', 'Sesame'] },
+  { cat: 'snacks', name: 'Roasted gram balls PET jar', desc: 'Minimum order 10 kg.', code: 'MZ-029', pack: 'PET jar', tags: ['Snacks', 'Indian food', 'Roasted gram'] },
+  { cat: 'snacks', name: 'Peanut sliced candy PET jar', desc: 'Minimum order 10 kg.', code: 'MZ-030', pack: 'PET jar', tags: ['Snacks', 'Indian food', 'Peanut'] },
+  { cat: 'snacks', name: 'Peanut candy jar', desc: 'Minimum order 10 kg.', code: 'MZ-031', pack: 'Glass jar', tags: ['Snacks', 'Indian food', 'Peanut'] },
+  { cat: 'snacks', name: 'Crushed peanut candy PET jar', desc: 'Minimum order 10 kg.', code: 'MZ-032', pack: 'PET jar', tags: ['Snacks', 'Indian food', 'Peanut'] },
+  { cat: 'snacks', name: 'Small peanut bar jar', desc: 'Minimum order 10 kg.', code: 'MZ-033', pack: 'Glass jar', tags: ['Snacks', 'Indian food', 'Peanut'] },
+  { cat: 'snacks', name: 'Small crushed peanut bar jar', desc: 'Minimum order 10 kg.', code: 'MZ-034', pack: 'Glass jar', tags: ['Snacks', 'Indian food', 'Peanut'] },
+  { cat: 'snacks', name: 'Small black sesame bar jar', desc: 'Minimum order 10 kg.', code: 'MZ-035', pack: 'Glass jar', tags: ['Snacks', 'Indian food', 'Sesame'] },
+  { cat: 'textile', name: 'Cotton mesh bags', desc: 'Reusable cotton mesh bags for shopping and storage.', code: 'MZ-036', pack: '1 pc', tags: ['Textile', 'Cotton', 'Reusable'] },
+  { cat: 'toys', name: 'Wooden teether rattle', desc: 'A wooden teether and rattle toy that makes a gentle sound.', code: 'MZ-037', pack: '1 pc', tags: ['Kids', 'Wooden', 'Toy'] },
 ]
 
 const WHY = [
@@ -88,7 +88,7 @@ const STEPS = [
 const FAQ = [
   [
     'How do I order?',
-    `Send an email to ${EMAIL} or call ${PHONE} with the products you want. You can also reach us via Instagram (@${INSTAGRAM_ID}) or WhatsApp. The minimum order for snacks is 10 kg. We reply with details and delivery information.`,
+    `Send an email to ${EMAIL} or call ${PHONE_INTL} with the products you want. You can also reach us via Instagram (@${INSTAGRAM_ID}) or WhatsApp. The minimum order for snacks is 10 kg. We reply with details and delivery information.`,
   ],
   ['Where do the products come from?', 'They come from makers in India, sourced through a trusted partner.'],
   [
@@ -298,11 +298,32 @@ function getProductImage(name = '') {
   return PRODUCT_IMAGES[name] || null
 }
 
-function Product({ cat, name, desc }) {
+function PinIcon({ size = 16 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+      <circle cx="12" cy="10" r="3" />
+    </svg>
+  )
+}
+
+function Product({ cat, name, desc, onOpen }) {
   const image = getProductImage(name)
 
   return (
-    <div className="item">
+    <div
+      className="item item-clickable"
+      role="button"
+      tabIndex={0}
+      onClick={onOpen}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onOpen?.()
+        }
+      }}
+      aria-label={`View details for ${name}`}
+    >
       <div className={`pic${image ? ' has-image' : ''}`}>
         {image ? (
           <img src={image} alt={name} loading="lazy" width="640" height="480" />
@@ -316,6 +337,196 @@ function Product({ cat, name, desc }) {
         <p>{desc}</p>
         <div className="item-foot">
           <span className="item-min">Minimum order: 10 kg</span>
+          <span className="item-view">View details →</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const TRUST_ITEMS = [
+  { icon: TruckIcon, text: 'Shipping across Europe' },
+  { icon: ShieldCheckIcon, text: '100% original products' },
+  { icon: MailIcon, text: 'Ask us anything' },
+  { icon: PinIcon, text: 'Direct from Indian makers' },
+]
+
+function ProductModal({ product, onClose, onPrev, onNext }) {
+  const isSnack = product.cat === 'snacks'
+  const minQty = isSnack ? 10 : 1
+  const unit = isSnack ? 'kg' : 'pc'
+  const [qty, setQty] = useState(minQty)
+  const [closing, setClosing] = useState(false)
+  const dialogRef = useRef(null)
+  const image = getProductImage(product.name)
+
+  useEffect(() => {
+    setQty(minQty)
+    setClosing(false)
+  }, [product.name, minQty])
+
+  useEffect(() => {
+    const prevFocus = document.activeElement
+    dialogRef.current?.focus()
+    return () => prevFocus?.focus?.()
+  }, [])
+
+  function requestClose() {
+    if (closing) return
+    setClosing(true)
+    setTimeout(onClose, 180)
+  }
+
+  useEffect(() => {
+    function onKey(e) {
+      if (e.key === 'Escape') requestClose()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  })
+
+  function onDialogKeyDown(e) {
+    if (e.key !== 'Tab' || !dialogRef.current) return
+    const focusables = dialogRef.current.querySelectorAll(
+      'button, a[href], [tabindex]:not([tabindex="-1"])',
+    )
+    if (focusables.length === 0) return
+    const first = focusables[0]
+    const last = focusables[focusables.length - 1]
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault()
+      last.focus()
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault()
+      first.focus()
+    }
+  }
+
+  const mailSubject = encodeURIComponent(`Enquiry: ${product.name}`)
+  const mailBody = encodeURIComponent(
+    `Product: ${product.name}\nProduct code: ${product.code}\nQuantity: ${qty} ${unit}\nCategory: ${getCatLabel(product.cat)}`,
+  )
+  const mailto = `mailto:${EMAIL}?subject=${mailSubject}&body=${mailBody}`
+
+  return (
+    <div
+      className={`pdp-overlay${closing ? ' closing' : ''}`}
+      onClick={requestClose}
+      role="presentation"
+    >
+      <div
+        className="pdp-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="pdp-title"
+        ref={dialogRef}
+        tabIndex={-1}
+        onClick={(e) => e.stopPropagation()}
+        onKeyDown={onDialogKeyDown}
+      >
+        <button
+          type="button"
+          className="pdp-close"
+          onClick={requestClose}
+          aria-label="Close product details"
+        >
+          <CloseIcon size={18} />
+        </button>
+
+        <div className="pdp-body">
+          <div className="pdp-media">
+            {image ? (
+              <img src={image} alt={product.name} />
+            ) : (
+              <div className="pdp-media-fallback">{product.name}</div>
+            )}
+          </div>
+
+          <div className="pdp-info">
+            <h2 id="pdp-title" className="pdp-title">
+              {product.name}
+            </h2>
+            <span className="pdp-cat">{getCatLabel(product.cat)}</span>
+            <p className="pdp-code">Product code: {product.code}</p>
+            <span className="pdp-stock">In stock</span>
+            {product.pack && <p className="pdp-pack">Pack size: {product.pack}</p>}
+            {isSnack && <p className="pdp-min">Minimum order: 10 kg</p>}
+
+            <div className="pdp-qty">
+              <button
+                type="button"
+                onClick={() => setQty((q) => Math.max(minQty, q - 1))}
+                disabled={qty <= minQty}
+                aria-label="Decrease quantity"
+              >
+                −
+              </button>
+              <span className="pdp-qty-value">
+                {qty} {unit}
+              </span>
+              <button
+                type="button"
+                onClick={() => setQty((q) => q + 1)}
+                aria-label="Increase quantity"
+              >
+                +
+              </button>
+            </div>
+
+            <div className="pdp-actions">
+              <a className="btn pdp-send" href={mailto}>
+                Send enquiry
+              </a>
+              <a className="btn secondary pdp-call" href={`tel:${PHONE_INTL}`}>
+                Call us
+              </a>
+            </div>
+
+            <div className="pdp-tabs" role="tablist">
+              <span className="pdp-tab active" role="tab" aria-selected="true">
+                Description
+              </span>
+            </div>
+            <p className="pdp-desc">{product.desc}</p>
+
+            <div className="pdp-tags">
+              {(product.tags || []).map((t) => (
+                <span key={t} className="pdp-tag">
+                  {t}
+                </span>
+              ))}
+            </div>
+
+            <div className="pdp-trust">
+              {TRUST_ITEMS.map(({ icon: Icon, text }) => (
+                <div className="pdp-trust-item" key={text}>
+                  <span className="pdp-trust-icon">
+                    <Icon size={15} />
+                  </span>
+                  <span>{text}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="pdp-nav">
+              <button
+                type="button"
+                className="pdp-nav-btn"
+                onClick={onPrev}
+                disabled={!onPrev}
+              >
+                ← Previous product
+              </button>
+              <button
+                type="button"
+                className="pdp-nav-btn"
+                onClick={onNext}
+                disabled={!onNext}
+              >
+                Next product →
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -325,9 +536,11 @@ function Product({ cat, name, desc }) {
 export default function App() {
   const [active, setActive] = useState('all')
   const [search, setSearch] = useState('')
+  const [searchOpen, setSearchOpen] = useState(false)
   const [lang, setLang] = useState('en')
   const [shopMenuOpen, setShopMenuOpen] = useState(false)
   const [enquiryModal, setEnquiryModal] = useState(null)
+  const [productModal, setProductModal] = useState(null)
   const [enquiryStatus, setEnquiryStatus] = useState('idle')
   const [enquiryError, setEnquiryError] = useState('')
   const [showTop, setShowTop] = useState(false)
@@ -340,15 +553,41 @@ export default function App() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const searchResults = search.trim()
-    ? PRODUCTS.filter((p) => {
-        const q = search.toLowerCase()
-        return (
-          p.name.toLowerCase().includes(q) ||
-          p.desc.toLowerCase().includes(q) ||
-          getCatLabel(p.cat).toLowerCase().includes(q)
-        )
-      })
+  useEffect(() => {
+    document.body.style.overflow = productModal ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [productModal])
+
+  const searchQuery = search.trim().toLowerCase().replace(/\s+/g, ' ')
+  const isCategorySearch =
+    searchQuery.length > 0 &&
+    CATEGORIES.some(
+      (c) => c.id !== 'all' && c.label.toLowerCase().includes(searchQuery),
+    )
+
+  const visibleCategories = CATEGORIES.filter((c) => c.id !== 'all').filter(
+    (cat) => {
+      if (!searchQuery) return true
+      if (isCategorySearch) {
+        return cat.label.toLowerCase().includes(searchQuery)
+      }
+      return PRODUCTS.some(
+        (p) =>
+          p.cat === cat.id && p.name.toLowerCase().includes(searchQuery),
+      )
+    },
+  )
+
+  function productsForCategory(catId) {
+    const all = PRODUCTS.filter((p) => p.cat === catId)
+    if (!searchQuery || isCategorySearch) return all
+    return all.filter((p) => p.name.toLowerCase().includes(searchQuery))
+  }
+
+  const dropdownResults = searchQuery
+    ? visibleCategories.flatMap((c) => productsForCategory(c.id)).slice(0, 8)
     : []
 
   function openEnquiry(item) {
@@ -435,7 +674,7 @@ export default function App() {
               <span className="bar-dot-sep">✦</span>
 
               <a className="bar-marquee-item" href={`tel:${PHONE_INTL}`}>
-                <PhoneIcon size={13} /> Orders &amp; Enquiries: <b>{PHONE}</b>
+                <PhoneIcon size={13} /> Orders &amp; Enquiries: <b>+46764393211</b>
               </a>
               <span className="bar-dot-sep">✦</span>
 
@@ -465,7 +704,7 @@ export default function App() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <WhatsAppIcon size={13} /> WhatsApp Orders: <b>{PHONE}</b>
+                <WhatsAppIcon size={13} /> WhatsApp Orders: <b>+46764393211</b>
               </a>
               <span className="bar-dot-sep">✦</span>
             </div>
@@ -536,15 +775,67 @@ export default function App() {
           </nav>
 
           <div className="header-tools">
-            <div className="header-search">
+            <div
+              className="header-search"
+              onBlur={(e) => {
+                if (!e.currentTarget.contains(e.relatedTarget)) {
+                  setSearchOpen(false)
+                }
+              }}
+            >
               <SearchIcon size={15} className="shop-search-icon" />
               <input
                 type="search"
                 placeholder="Search products…"
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => {
+                  setSearch(e.target.value)
+                  setSearchOpen(true)
+                }}
+                onFocus={() => setSearchOpen(true)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Escape') setSearchOpen(false)
+                }}
+                role="combobox"
+                aria-expanded={searchOpen && search.trim().length > 0}
+                aria-controls="search-dropdown"
                 aria-label="Search products"
               />
+              {searchOpen && search.trim() && (
+                <div className="search-dropdown" id="search-dropdown" role="listbox">
+                  {dropdownResults.length === 0 ? (
+                    <div className="search-dropdown-empty">
+                      No products found matching &quot;{search}&quot;
+                    </div>
+                  ) : (
+                    dropdownResults.map((p) => {
+                      const img = getProductImage(p.name)
+                      return (
+                      <button
+                        key={p.name}
+                        type="button"
+                        role="option"
+                        aria-selected="false"
+                        onMouseDown={(e) => e.preventDefault()}
+                        onClick={() => {
+                          setSearch('')
+                          setSearchOpen(false)
+                          setProductModal(p)
+                        }}
+                      >
+                        {img && (
+                          <img className="sd-img" src={img} alt="" loading="lazy" />
+                        )}
+                        <span className="sd-text">
+                          <span className="sd-name">{p.name}</span>
+                          <span className="sd-cat">{getCatLabel(p.cat)}</span>
+                        </span>
+                      </button>
+                      )
+                    })
+                  )}
+                </div>
+              )}
             </div>
             <select
               className="lang-select"
@@ -637,22 +928,15 @@ export default function App() {
 
           {/* CATEGORY BOXES GRID (Like in example photo) */}
           <div className="category-boxes-grid">
-            {CATEGORIES.filter((c) => c.id !== 'all').map((cat) => {
-              const catCount = PRODUCTS.filter((p) => p.cat === cat.id).length
+            {visibleCategories.map((cat) => {
+              const catProducts = productsForCategory(cat.id)
+              const catCount = catProducts.length
               const isOpen = active === cat.id
-              const catProducts = PRODUCTS.filter((p) => {
-                if (p.cat !== cat.id) return false
-                if (!search.trim()) return true
-                const q = search.toLowerCase()
-                return (
-                  p.name.toLowerCase().includes(q) ||
-                  p.desc.toLowerCase().includes(q)
-                )
-              })
+              const boxOpen = isOpen || searchQuery.length > 0
               return (
                 <div
                   key={cat.id}
-                  className={`cat-box ${isOpen ? 'open' : ''}`}
+                  className={`cat-box ${boxOpen ? 'open' : ''}`}
                   role="button"
                   tabIndex={0}
                   onClick={() => setActive(isOpen ? 'all' : cat.id)}
@@ -662,13 +946,13 @@ export default function App() {
                       setActive(isOpen ? 'all' : cat.id)
                     }
                   }}
-                  aria-expanded={isOpen}
-                  title={isOpen ? `Close ${cat.label}` : `View ${cat.label}`}
+                  aria-expanded={boxOpen}
+                  title={boxOpen ? `Close ${cat.label}` : `View ${cat.label}`}
                 >
                   <div className="cat-box-header">
                     <span>{cat.label}</span>
                     <span className="cat-box-chevron" aria-hidden="true">
-                      {isOpen ? '▴' : '▾'}
+                      {boxOpen ? '▴' : '▾'}
                     </span>
                   </div>
                   <div className="cat-box-body">
@@ -677,7 +961,7 @@ export default function App() {
                       {catCount > 0 ? `${catCount} ${catCount === 1 ? 'item' : 'items'}` : 'Wholesale available'}
                     </span>
                   </div>
-                  {isOpen && (
+                  {boxOpen && (
                     <div className="cat-box-products">
                       {catProducts.length === 0 ? (
                         <p className="cat-group-empty">
@@ -685,7 +969,11 @@ export default function App() {
                         </p>
                       ) : (
                         catProducts.map((p) => (
-                          <Product key={p.name} {...p} />
+                          <Product
+                            key={p.name}
+                            {...p}
+                            onOpen={() => setProductModal(p)}
+                          />
                         ))
                       )}
                     </div>
@@ -695,27 +983,19 @@ export default function App() {
             })}
           </div>
 
-          {/* SEARCH RESULTS */}
-          {search.trim() && (
-            <div className="search-results">
-              {searchResults.length === 0 ? (
-                <p className="cat-group-empty">
-                  No products found matching &quot;{search}&quot;.
-                </p>
-              ) : (
-                <>
-                  <p className="cat-contents-sub">
-                    Showing {searchResults.length}{' '}
-                    {searchResults.length === 1 ? 'product' : 'products'} matching
-                    &quot;{search}&quot;
-                  </p>
-                  <div className="cat-box-products">
-                    {searchResults.map((p) => (
-                      <Product key={p.name} {...p} />
-                    ))}
-                  </div>
-                </>
-              )}
+          {searchQuery && visibleCategories.length === 0 && (
+            <div className="search-empty">
+              <p>No products found</p>
+              <button
+                type="button"
+                className="btn"
+                onClick={() => {
+                  setSearch('')
+                  setSearchOpen(false)
+                }}
+              >
+                Clear search
+              </button>
             </div>
           )}
         </div>
@@ -840,7 +1120,7 @@ export default function App() {
                 </div>
                 <div className="social-card-meta">
                   <span className="social-platform">WhatsApp</span>
-                  <span className="social-handle">{PHONE}</span>
+                  <span className="social-handle">+46764393211</span>
                 </div>
               </div>
               <p className="social-card-desc">
@@ -962,7 +1242,7 @@ export default function App() {
                 <MailIcon size={14} /> {EMAIL}
               </a>
               <a className="foot-contact-link" href={`tel:${PHONE_INTL}`}>
-                <PhoneIcon size={14} /> {PHONE} ({PHONE_INTL})
+                <PhoneIcon size={14} /> {PHONE_INTL}
               </a>
               <a
                 className="foot-contact-link"
@@ -970,7 +1250,7 @@ export default function App() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <WhatsAppIcon size={14} /> WhatsApp: {PHONE}
+                <WhatsAppIcon size={14} /> WhatsApp: +46764393211
               </a>
             </div>
           </div>
@@ -1046,6 +1326,27 @@ export default function App() {
           ↑
         </button>
       )}
+
+      {/* 8. PRODUCT DETAIL MODAL */}
+      {productModal &&
+        (() => {
+          const list = PRODUCTS.filter((p) => p.cat === productModal.cat)
+          const idx = list.findIndex((p) => p.name === productModal.name)
+          return (
+            <ProductModal
+              product={productModal}
+              onClose={() => setProductModal(null)}
+              onPrev={
+                idx > 0 ? () => setProductModal(list[idx - 1]) : null
+              }
+              onNext={
+                idx >= 0 && idx < list.length - 1
+                  ? () => setProductModal(list[idx + 1])
+                  : null
+              }
+            />
+          )
+        })()}
 
       {/* 9. PRODUCT ENQUIRY MODAL */}
       {enquiryModal && (
