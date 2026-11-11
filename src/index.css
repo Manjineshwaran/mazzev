@@ -170,8 +170,8 @@ header .wrap {
   justify-content: space-between;
   align-items: center;
   gap: 8px 24px;
-  padding-top: 14px;
-  padding-bottom: 14px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .brand {
@@ -184,10 +184,18 @@ header .wrap {
   letter-spacing: -0.01em;
 }
 
+.brand picture {
+  display: flex;
+  align-items: center;
+}
+
 .brand img {
-  height: 44px;
+  height: 64px;
   width: auto;
   display: block;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -444,28 +452,81 @@ h3 {
   flex: 1 1 420px;
 }
 
-.hero-peacock {
-  width: min(340px, 42vw);
-  height: auto;
-  flex-shrink: 0;
-  filter: sepia(0.75) saturate(2.2) hue-rotate(-12deg) contrast(1.06) brightness(1.03), drop-shadow(0 10px 30px rgba(0, 0, 0, 0.25));
-  transform-origin: 50% 100%;
-  animation: peacock-sway 6s ease-in-out infinite;
+.hero-marquee {
+  flex: 1 1 340px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  padding: 20px 0;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 45%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 45%);
 }
 
-@keyframes peacock-sway {
-  0%,
-  100% {
-    transform: rotate(-3deg);
+.hero-products-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #F2C14E;
+  margin-bottom: 12px;
+}
+
+.hero-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: barLoopRun 38s linear infinite;
+  will-change: transform;
+}
+
+.hero-marquee:hover .hero-marquee-track {
+  animation-play-state: paused;
+}
+
+.hero-marquee-content {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.hero-marquee-img {
+  height: 150px;
+  width: auto;
+  flex-shrink: 0;
+  margin: 0 12px;
+  border-radius: 16px;
+  border: 3px solid rgba(255, 255, 255, 0.9);
+  background: #fff;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hero-marquee-img:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.28);
+}
+
+@media (max-width: 900px) {
+  .hero-marquee {
+    flex: 1 1 100%;
+    margin-top: 24px;
   }
-  50% {
-    transform: rotate(3deg);
+}
+
+@media (max-width: 640px) {
+  .hero-marquee-img {
+    height: 110px;
+    margin: 0 8px;
+    border-radius: 12px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-peacock {
+  .hero-marquee-track {
     animation: none;
+    overflow-x: auto;
   }
 }
 
@@ -1887,8 +1948,8 @@ details p {
     flex: 1 1 100%;
   }
 
-  .hero-peacock {
-    width: min(260px, 70vw);
+  .brand img {
+    height: 52px;
   }
 
   .shop-header {

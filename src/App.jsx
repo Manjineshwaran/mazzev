@@ -99,6 +99,17 @@ const FAQ = [
 
 const getCatLabel = (id) => CATEGORIES.find((c) => c.id === id)?.label ?? ''
 
+const FEATURED_PRODUCTS = [
+  'Sesame oil',
+  'Groundnut oil',
+  'Coconut oil',
+  'Rice',
+  'Peanut family pack',
+  'Peanut balls PET jar',
+  'White sesame balls PET jar',
+  'Wooden teether rattle',
+]
+
 function ClockIcon({ className = '', size = 18 }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
@@ -716,7 +727,20 @@ export default function App() {
       <header>
         <div className="wrap">
           <a className="brand" href="#top" id="top">
-            <img src="/logo-mark.png" alt="Mazzev Logo" width="139" height="217" />
+            <picture>
+              <source
+                media="(prefers-reduced-motion: reduce)"
+                srcSet="/mazzev-peacock-still.png"
+              />
+              <img
+                src="/mazzev-peacock.gif"
+                alt="Mazzev"
+                width="64"
+                height="64"
+                loading="eager"
+                fetchPriority="high"
+              />
+            </picture>
             Mazzev
           </a>
           <nav aria-label="Main">
@@ -870,11 +894,29 @@ export default function App() {
               textiles and kids&apos; toys from trusted makers in India.
             </p>
           </div>
-          <img
-            className="hero-peacock"
-            src="/mazzev-peacock.gif"
-            alt="Mazzev peacock logo animation"
-          />
+          <div className="hero-marquee">
+            <span className="hero-products-label">Featured &amp; New Launches</span>
+            <div className="hero-marquee-track">
+              {[0, 1].map((loopIdx) => (
+                <div className="hero-marquee-content" key={loopIdx}>
+                  {FEATURED_PRODUCTS.map((name) => {
+                    const img = getProductImage(name)
+                    if (!img) return null
+                    return (
+                      <img
+                        className="hero-marquee-img"
+                        key={`${loopIdx}-${name}`}
+                        src={img}
+                        alt={name}
+                        title={name}
+                        loading="eager"
+                      />
+                    )
+                  })}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
