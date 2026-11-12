@@ -450,18 +450,20 @@ h3 {
 
 .hero-copy {
   flex: 1 1 420px;
+  margin-left: -24px;
 }
 
-.hero-marquee {
-  flex: 1 1 340px;
+.hero-marquee-wrap {
+  flex: 1 1 480px;
   min-width: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.hero-marquee {
   overflow: hidden;
-  padding: 20px 0;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 45%);
-  mask-image: linear-gradient(to bottom, transparent 0%, #000 45%);
+  padding: 10px 0 6px;
 }
 
 .hero-products-label {
@@ -471,7 +473,7 @@ h3 {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: #F2C14E;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .hero-marquee-track {
@@ -492,24 +494,22 @@ h3 {
 }
 
 .hero-marquee-img {
-  height: 150px;
+  height: 240px;
   width: auto;
   flex-shrink: 0;
-  margin: 0 12px;
-  border-radius: 16px;
-  border: 3px solid rgba(255, 255, 255, 0.9);
-  background: #fff;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin: 0 20px;
+  object-fit: contain;
+  filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.28));
+  transition: transform 0.2s ease, filter 0.2s ease;
 }
 
 .hero-marquee-img:hover {
-  transform: translateY(-5px) scale(1.05);
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.28);
+  transform: translateY(-6px) scale(1.04);
+  filter: drop-shadow(0 20px 26px rgba(0, 0, 0, 0.36));
 }
 
 @media (max-width: 900px) {
-  .hero-marquee {
+  .hero-marquee-wrap {
     flex: 1 1 100%;
     margin-top: 24px;
   }
@@ -517,9 +517,8 @@ h3 {
 
 @media (max-width: 640px) {
   .hero-marquee-img {
-    height: 110px;
-    margin: 0 8px;
-    border-radius: 12px;
+    height: 170px;
+    margin: 0 14px;
   }
 }
 

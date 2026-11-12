@@ -102,12 +102,8 @@ const getCatLabel = (id) => CATEGORIES.find((c) => c.id === id)?.label ?? ''
 const FEATURED_PRODUCTS = [
   'Sesame oil',
   'Groundnut oil',
-  'Coconut oil',
-  'Rice',
   'Peanut family pack',
   'Peanut balls PET jar',
-  'White sesame balls PET jar',
-  'Wooden teether rattle',
 ]
 
 function ClockIcon({ className = '', size = 18 }) {
@@ -266,43 +262,43 @@ function CategoryVisual({ catId }) {
 }
 
 const PRODUCT_IMAGES = {
-  'Sesame oil': '/products/sesame-oil.jpg',
-  'Groundnut oil': '/products/groundnut-oil.jpg',
-  'Coconut oil': '/products/coconut-oil.jpg',
-  Rice: '/products/rice.jpg',
-  'Small peanut bar': '/products/peanut-bar-small.jpg',
-  'Regular peanut bar': '/products/peanut-bar-regular.jpg',
-  'Regular crushed peanut bar': '/products/peanut-bar-regular-crushed.jpg',
-  'Large peanut bar': '/products/peanut-bar-large.jpg',
-  'Large crushed peanut bar': '/products/peanut-bar-large-crushed.jpg',
-  'Peanut family pack': '/products/peanut-family-pack.jpg',
-  'Regular peanut bar (20 pcs)': '/products/peanut-bar-20pcs.jpg',
-  'Small peanut bar pack (20 pcs)': '/products/peanut-bar-20pcs.jpg',
-  'Peanut balls pack': '/products/peanut-balls-pack.jpg',
-  'White sesame balls pack': '/products/white-sesame-balls-pack.jpg',
-  'Black sesame balls pack': '/products/black-sesame-balls-pack.jpg',
-  'Puffed rice balls pack': '/products/puffed-rice-balls-pack.jpg',
-  'Roasted gram ball pack': '/products/roasted-gram-balls-pack.jpg',
-  'Peanut round': '/products/peanut-round.jpg',
-  'White sesame round': '/products/white-sesame-round.jpg',
-  'Black sesame round': '/products/black-sesame-round.jpg',
-  'Peanut sliced candy pack': '/products/peanut-sliced-candy-pack.jpg',
-  'Crushed peanut sliced candy pack': '/products/crushed-peanut-sliced-candy-pack.jpg',
-  'Peanut sliced candy box': '/products/peanut-sliced-candy-box.jpg',
-  'White sesame sliced candy box': '/products/white-sesame-sliced-candy-box.jpg',
-  'Black sesame sliced candy box': '/products/black-sesame-sliced-candy-box.jpg',
-  'Peanut balls PET jar': '/products/peanut-balls-jar.jpg',
-  'White sesame balls PET jar': '/products/white-sesame-balls-jar.jpg',
-  'Black sesame balls PET jar': '/products/black-sesame-balls-jar.jpg',
-  'Roasted gram balls PET jar': '/products/roasted-gram-balls-jar.jpg',
-  'Peanut sliced candy PET jar': '/products/peanut-sliced-candy-jar.jpg',
-  'Peanut candy jar': '/products/peanut-candy-jar.jpg',
-  'Crushed peanut candy PET jar': '/products/crushed-peanut-candy-jar.jpg',
-  'Small peanut bar jar': '/products/small-peanut-bar-jar.jpg',
-  'Small crushed peanut bar jar': '/products/small-crushed-peanut-bar-jar.jpg',
-  'Small black sesame bar jar': '/products/small-black-sesame-bar-jar.jpg',
-  'Cotton mesh bags': '/products/cotton-mesh-bags.jpg',
-  'Wooden teether rattle': '/products/wooden-teether.jpg',
+  'Sesame oil': '/products/sesame-oil-cutout.png',
+  'Groundnut oil': '/products/groundnut-oil-cutout.png',
+  'Coconut oil': '/products/coconut-oil-cutout.png',
+  Rice: '/products/rice-cutout.png',
+  'Small peanut bar': '/products/peanut-bar-small-cutout.png',
+  'Regular peanut bar': '/products/peanut-bar-regular-cutout.png',
+  'Regular crushed peanut bar': '/products/peanut-bar-regular-crushed-cutout.png',
+  'Large peanut bar': '/products/peanut-bar-large-cutout.png',
+  'Large crushed peanut bar': '/products/peanut-bar-large-crushed-cutout.png',
+  'Peanut family pack': '/products/peanut-family-pack-cutout.png',
+  'Regular peanut bar (20 pcs)': '/products/peanut-bar-20pcs-cutout.png',
+  'Small peanut bar pack (20 pcs)': '/products/peanut-bar-20pcs-cutout.png',
+  'Peanut balls pack': '/products/peanut-balls-pack-cutout.png',
+  'White sesame balls pack': '/products/white-sesame-balls-pack-cutout.png',
+  'Black sesame balls pack': '/products/black-sesame-balls-pack-cutout.png',
+  'Puffed rice balls pack': '/products/puffed-rice-balls-pack-cutout.png',
+  'Roasted gram ball pack': '/products/roasted-gram-balls-pack-cutout.png',
+  'Peanut round': '/products/peanut-round-cutout.png',
+  'White sesame round': '/products/white-sesame-round-cutout.png',
+  'Black sesame round': '/products/black-sesame-round-cutout.png',
+  'Peanut sliced candy pack': '/products/peanut-sliced-candy-pack-cutout.png',
+  'Crushed peanut sliced candy pack': '/products/crushed-peanut-sliced-candy-pack-cutout.png',
+  'Peanut sliced candy box': '/products/peanut-sliced-candy-box-cutout.png',
+  'White sesame sliced candy box': '/products/white-sesame-sliced-candy-box-cutout.png',
+  'Black sesame sliced candy box': '/products/black-sesame-sliced-candy-box-cutout.png',
+  'Peanut balls PET jar': '/products/peanut-balls-jar-cutout.png',
+  'White sesame balls PET jar': '/products/white-sesame-balls-jar-cutout.png',
+  'Black sesame balls PET jar': '/products/black-sesame-balls-jar-cutout.png',
+  'Roasted gram balls PET jar': '/products/roasted-gram-balls-jar-cutout.png',
+  'Peanut sliced candy PET jar': '/products/peanut-sliced-candy-jar-cutout.png',
+  'Peanut candy jar': '/products/peanut-candy-jar-cutout.png',
+  'Crushed peanut candy PET jar': '/products/crushed-peanut-candy-jar-cutout.png',
+  'Small peanut bar jar': '/products/small-peanut-bar-jar-cutout.png',
+  'Small crushed peanut bar jar': '/products/small-crushed-peanut-bar-jar-cutout.png',
+  'Small black sesame bar jar': '/products/small-black-sesame-bar-jar-cutout.png',
+  'Cotton mesh bags': '/products/cotton-mesh-bags-cutout.png',
+  'Wooden teether rattle': '/products/wooden-teether-cutout.png',
 }
 
 function getProductImage(name = '') {
@@ -894,9 +890,10 @@ export default function App() {
               textiles and kids&apos; toys from trusted makers in India.
             </p>
           </div>
-          <div className="hero-marquee">
+          <div className="hero-marquee-wrap">
             <span className="hero-products-label">Featured &amp; New Launches</span>
-            <div className="hero-marquee-track">
+            <div className="hero-marquee">
+              <div className="hero-marquee-track">
               {[0, 1].map((loopIdx) => (
                 <div className="hero-marquee-content" key={loopIdx}>
                   {FEATURED_PRODUCTS.map((name) => {
@@ -915,6 +912,7 @@ export default function App() {
                   })}
                 </div>
               ))}
+              </div>
             </div>
           </div>
         </div>
