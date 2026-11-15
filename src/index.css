@@ -189,12 +189,14 @@ header .wrap {
   letter-spacing: -0.01em;
 }
 
-.brand picture {
+.brand picture,
+.brand video {
   display: flex;
   align-items: center;
 }
 
-.brand img {
+.brand img,
+.brand video.brand-logo {
   height: 64px;
   width: auto;
   display: block;
@@ -785,11 +787,27 @@ h2 {
    ============================================================ */
 .categories-header {
   margin-bottom: 24px;
+  text-align: center;
 }
 
 .categories-header h2 {
   font-size: clamp(28px, 4vw, 36px);
   margin-bottom: 8px;
+  display: inline-block;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.categories-header h2::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 72px;
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--gold), #F2C14E);
 }
 
 .category-boxes-grid {
@@ -1952,7 +1970,8 @@ details p {
     flex: 1 1 100%;
   }
 
-  .brand img {
+  .brand img,
+  .brand video.brand-logo {
     height: 52px;
   }
 

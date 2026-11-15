@@ -8,6 +8,7 @@ import {
   SearchIcon,
   WhatsAppIcon,
 } from './components/Icons'
+import AboutUs from './components/AboutUs'
 
 const PHONE = '0764393211'
 const PHONE_INTL = '+46764393211'
@@ -547,6 +548,7 @@ export default function App() {
   const [lang, setLang] = useState('en')
   const [shopMenuOpen, setShopMenuOpen] = useState(false)
   const [enquiryModal, setEnquiryModal] = useState(null)
+  const [aboutOpen, setAboutOpen] = useState(false)
   const [productModal, setProductModal] = useState(null)
   const [enquiryStatus, setEnquiryStatus] = useState('idle')
   const [enquiryError, setEnquiryError] = useState('')
@@ -723,20 +725,19 @@ export default function App() {
       <header>
         <div className="wrap">
           <a className="brand" href="#top" id="top">
-            <picture>
-              <source
-                media="(prefers-reduced-motion: reduce)"
-                srcSet="/mazzev-peacock-still.png"
-              />
-              <img
-                src="/mazzev-peacock.gif"
-                alt="Mazzev"
-                width="64"
-                height="64"
-                loading="eager"
-                fetchPriority="high"
-              />
-            </picture>
+            <video
+              className="brand-logo"
+              src="/mazzev-peacock.mp4"
+              poster="/mazzev-peacock-still.png"
+              alt="Mazzev"
+              width="64"
+              height="64"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+            />
             Mazzev
           </a>
           <nav aria-label="Main">
@@ -791,7 +792,15 @@ export default function App() {
             >
               Enquiry
             </a>
-            <a href="#why">About us</a>
+            <a
+              href="#about"
+              onClick={(e) => {
+                e.preventDefault()
+                setAboutOpen(true)
+              }}
+            >
+              About us
+            </a>
           </nav>
 
           <div className="header-tools">
@@ -959,7 +968,6 @@ export default function App() {
 
           {/* CATEGORIES HEADER */}
           <div className="categories-header text-center">
-            <span className="section-badge">Browse By Range</span>
             <h2>Categories</h2>
             <p className="lead">
               Select a category box to explore our authentic Indian products and wholesale specialties.
@@ -1181,6 +1189,9 @@ export default function App() {
         </div>
       </section>
 
+      {/* 8b. ABOUT US MODAL */}
+      <AboutUs open={aboutOpen} onClose={() => setAboutOpen(false)} />
+
       {/* 9. COMPREHENSIVE FOOTER (Matching example photo layout) */}
       <footer id="contact" className="site-footer">
         <div className="wrap">
@@ -1244,7 +1255,15 @@ export default function App() {
 
             <div className="footer-col">
               <h4>About</h4>
-              <a href="#why">About Mazzev</a>
+              <a
+                href="#about"
+                onClick={(e) => {
+                  e.preventDefault()
+                  setAboutOpen(true)
+                }}
+              >
+                About Mazzev
+              </a>
               <a href="#how">How It Works</a>
               <a href="#why">Why Choose Us</a>
               <a href="#why">Rooted in India</a>
