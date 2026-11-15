@@ -74,6 +74,7 @@
   line-height: 1.2;
   color: #102A3D;
   margin: 0 0 18px;
+  white-space: nowrap;
 }
 
 .about-lead {
@@ -287,6 +288,10 @@
 
 /* RESPONSIVE */
 @media (max-width: 860px) {
+  .about-hero h2 {
+    white-space: normal;
+  }
+
   .about-story {
     grid-template-columns: 1fr;
     padding: 28px 24px;

@@ -61,10 +61,15 @@ export default function AboutUs({ open, onClose }) {
           {/* HERO HEADER */}
           <header className="about-hero">
             <span className="about-eyebrow">About Mazzev</span>
-            <h2>Bridging Indian Manufacturing Excellence with Europe &amp; the World</h2>
+            <h2>
+              Indian craftsmanship. European standards.
+              <br />
+              Global reach.
+            </h2>
             <p className="about-lead">
-              Mazzev is a Stockholm-based bridge between India&apos;s makers and Europe&apos;s markets —
-              connecting authentic products with customers who value quality, origin and fairness.
+              From Stockholm, Mazzev curates authentic Indian products and brings them to discerning
+              customers across Europe — with a commitment to quality, transparency, and fair
+              partnerships.
             </p>
           </header>
 

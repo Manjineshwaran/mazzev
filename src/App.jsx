@@ -899,6 +899,20 @@ export default function App() {
               textiles and kids&apos; toys from trusted makers in India.
             </p>
           </div>
+          <div className="hero-supply-frame-wrap">
+            <iframe
+              className="hero-supply-frame"
+              src="/supply-chain.html"
+              title="Mazzev supply chain — farm to client"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* 3b. FEATURED PRODUCTS MARQUEE */}
+      <div className="hero-products-strip">
+        <div className="wrap">
           <div className="hero-marquee-wrap">
             <span className="hero-products-label">Featured &amp; New Launches</span>
             <div className="hero-marquee">
@@ -915,7 +929,7 @@ export default function App() {
                         src={img}
                         alt={name}
                         title={name}
-                        loading="eager"
+                        loading="lazy"
                       />
                     )
                   })}
