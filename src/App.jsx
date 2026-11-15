@@ -906,12 +906,23 @@ export default function App() {
             <p>{t('hero.lead')}</p>
           </div>
           <div className="hero-supply-frame-wrap">
-            <iframe
-              className="hero-supply-frame"
-              src="/supply-chain.html"
-              title="Mazzev supply chain — farm to client"
-              loading="lazy"
-            />
+            <video
+              className="hero-supply-frame hero-video"
+              src="/mazzev-video.mp4"
+              poster="/mazzev-peacock-still.png"
+              controls
+              playsInline
+              preload="metadata"
+              aria-label="Mazzev supply chain — farm to client"
+            >
+              <track
+                kind="captions"
+                srcLang="en"
+                label="English"
+                src="/mazzev-video-en.vtt"
+                default
+              />
+            </video>
           </div>
         </div>
       </div>
