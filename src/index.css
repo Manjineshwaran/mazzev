@@ -53,8 +53,9 @@ html {
 
 body {
   margin: 0;
-  background-color: var(--bg);
+  background-color: #ECECEC;
   background-image: url('/images/mazzev-world-map-bg.png');
+  background-blend-mode: multiply;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -808,6 +809,46 @@ h2 {
   height: 4px;
   border-radius: 2px;
   background: linear-gradient(90deg, var(--gold), #F2C14E);
+}
+
+.categories-lead {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 14px auto 32px;
+}
+
+.categories-lead::before,
+.categories-lead::after {
+  content: '';
+  flex: 0 1 120px;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, var(--gold));
+}
+
+.categories-lead::after {
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+
+.categories-lead span {
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .categories-lead {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .categories-lead::before,
+  .categories-lead::after {
+    flex-basis: 40px;
+  }
+
+  .categories-lead span {
+    white-space: normal;
+  }
 }
 
 .category-boxes-grid {

@@ -969,8 +969,8 @@ export default function App() {
           {/* CATEGORIES HEADER */}
           <div className="categories-header text-center">
             <h2>Categories</h2>
-            <p className="lead">
-              Select a category box to explore our authentic Indian products and wholesale specialties.
+            <p className="lead categories-lead">
+              <span>Select a category box to explore our authentic Indian products and wholesale specialties.</span>
             </p>
           </div>
 
@@ -1302,14 +1302,6 @@ export default function App() {
               </a>
               <a className="foot-contact-link" href={`tel:${PHONE_INTL}`}>
                 <PhoneIcon size={14} /> {PHONE_INTL}
-              </a>
-              <a
-                className="foot-contact-link"
-                href={WHATSAPP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <WhatsAppIcon size={14} /> WhatsApp: +46764393211
               </a>
             </div>
           </div>
