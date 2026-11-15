@@ -911,6 +911,9 @@ export default function App() {
               src="/mazzev-video.mp4"
               poster="/mazzev-peacock-still.png"
               controls
+              autoPlay
+              muted
+              loop
               playsInline
               preload="metadata"
               aria-label="Mazzev supply chain — farm to client"
