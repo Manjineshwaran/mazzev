@@ -1,36 +1,15 @@
 import { useEffect } from 'react'
+import { translate } from '../i18n'
 import './AboutUs.css'
 
 const EMAIL = 'info@mazzev.com'
 const PHONE_INTL = '+46764393211'
 
-const PRODUCER_CARDS = [
-  {
-    title: 'Small-Scale Producers & MSMEs',
-    text: 'We partner directly with artisan families, village producers and micro-enterprises across India — giving them fair prices, stable orders and access to European markets they could never reach alone.',
-  },
-  {
-    title: 'Large-Scale Industries',
-    text: 'For established manufacturers, we provide a reliable European gateway: compliant documentation, consolidated logistics and long-term supply relationships built on transparency.',
-  },
-]
+const PRODUCER_COUNT = 2
+const PILLAR_COUNT = 3
 
-const PILLARS = [
-  {
-    title: 'European Standards & Compliance',
-    text: 'Every product is checked against EU quality, safety and labeling requirements before it crosses the border.',
-  },
-  {
-    title: 'Direct & Transparent Sourcing',
-    text: 'No middlemen, no hidden margins. We know our producers personally and share the story behind every product.',
-  },
-  {
-    title: 'Flexible Scale',
-    text: 'From a single carton for a boutique shop to full container loads for distributors — we grow with your business.',
-  },
-]
-
-export default function AboutUs({ open, onClose }) {
+export default function AboutUs({ open, onClose, lang = 'en' }) {
+  const t = (key) => translate(lang, key)
   useEffect(() => {
     if (!open) return
     function onKey(e) {
@@ -60,32 +39,17 @@ export default function AboutUs({ open, onClose }) {
         <div className="about-wrap">
           {/* HERO HEADER */}
           <header className="about-hero">
-            <span className="about-eyebrow">About Mazzev</span>
-            <h2>
-              Indian craftsmanship. European standards.
-              <br />
-              Global reach.
-            </h2>
-            <p className="about-lead">
-              From Stockholm, Mazzev curates authentic Indian products and brings them to discerning
-              customers across Europe — with a commitment to quality, transparency, and fair
-              partnerships.
-            </p>
+            <span className="about-eyebrow">{t('about.eyebrow')}</span>
+            <h2>{t('about.h1')}<br />{t('about.h2')}</h2>
+            <p className="about-lead">{t('about.lead')}</p>
           </header>
 
           {/* TWO-COLUMN STORY */}
           <div className="about-story">
             <div className="about-story-text">
-              <h3>Our story</h3>
-              <p>
-                From our base in Stockholm, we work hand-in-hand with producers across India — from
-                small family workshops to large industrial units — to bring their products to Europe.
-              </p>
-              <p>
-                We believe trade should be simple and honest: the people who make the products should
-                be paid fairly, and the people who buy them should know exactly where they come from.
-                That is the bridge Mazzev builds every day.
-              </p>
+              <h3>{t('about.storyTitle')}</h3>
+              <p>{t('about.story1')}</p>
+              <p>{t('about.story2')}</p>
             </div>
             <div className="about-story-visual" aria-hidden="true">
               <div className="about-route">
@@ -93,44 +57,44 @@ export default function AboutUs({ open, onClose }) {
                 <span className="about-route-line" />
                 <span className="about-route-dot sweden">SE</span>
               </div>
-              <p className="about-route-caption">India → Stockholm → Europe &amp; beyond</p>
+              <p className="about-route-caption">{t('about.route')}</p>
             </div>
           </div>
 
           {/* PRODUCER CARDS */}
           <div className="about-cards">
-            {PRODUCER_CARDS.map((card) => (
-              <article className="about-card" key={card.title}>
-                <h3>{card.title}</h3>
-                <p>{card.text}</p>
+            {Array.from({ length: PRODUCER_COUNT }, (_, i) => (
+              <article className="about-card" key={i}>
+                <h3>{t(`about.producer${i + 1}t`)}</h3>
+                <p>{t(`about.producer${i + 1}d`)}</p>
               </article>
             ))}
           </div>
 
           {/* VALUE PILLARS */}
           <div className="about-pillars">
-            {PILLARS.map((pillar, i) => (
-              <div className="about-pillar" key={pillar.title}>
+            {Array.from({ length: PILLAR_COUNT }, (_, i) => (
+              <div className="about-pillar" key={i}>
                 <span className="about-pillar-num">{String(i + 1).padStart(2, '0')}</span>
-                <h3>{pillar.title}</h3>
-                <p>{pillar.text}</p>
+                <h3>{t(`about.pillar${i + 1}t`)}</h3>
+                <p>{t(`about.pillar${i + 1}d`)}</p>
               </div>
             ))}
           </div>
 
           {/* CONTACT CTA */}
           <div className="about-cta">
-            <h3>Let&apos;s build something together</h3>
-            <p>Whether you produce in India or buy in Europe — we&apos;d love to hear from you.</p>
+            <h3>{t('about.ctaTitle')}</h3>
+            <p>{t('about.ctaText')}</p>
             <div className="about-cta-actions">
               <a className="about-btn primary" href={`mailto:${EMAIL}`}>
-                Email us · {EMAIL}
+                {t('about.emailUs')} · {EMAIL}
               </a>
               <a className="about-btn secondary" href={`tel:${PHONE_INTL}`}>
-                Call · {PHONE_INTL}
+                {t('about.call')} · {PHONE_INTL}
               </a>
             </div>
-            <p className="about-cta-note">Safe &amp; secure payments · Invoicing available for businesses</p>
+            <p className="about-cta-note">{t('about.ctaNote')}</p>
           </div>
         </div>
       </div>

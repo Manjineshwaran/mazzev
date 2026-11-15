@@ -1906,6 +1906,23 @@ details p {
   color: var(--ink);
 }
 
+.req-star {
+  color: #DC2626;
+}
+
+.phone-group {
+  display: flex;
+  gap: 8px;
+}
+
+.phone-group select {
+  flex: 0 0 110px;
+}
+
+.phone-group input {
+  flex: 1;
+}
+
 .modal-form input,
 .modal-form select,
 .modal-form textarea {

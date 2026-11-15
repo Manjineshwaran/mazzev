@@ -9,6 +9,7 @@ import {
   WhatsAppIcon,
 } from './components/Icons'
 import AboutUs from './components/AboutUs'
+import { translate } from './i18n'
 
 const PHONE = '0764393211'
 const PHONE_INTL = '+46764393211'
@@ -19,6 +20,20 @@ const INSTAGRAM_ID = 'mazzev.official'
 const FACEBOOK_URL = 'https://facebook.com/mazzevofficial'
 const FACEBOOK_ID = 'facebook.com/mazzevofficial'
 const WHATSAPP_URL = 'https://wa.me/46764393211'
+
+const COUNTRY_CODES = [
+  { code: '+46', label: 'SE +46' },
+  { code: '+91', label: 'IN +91' },
+  { code: '+49', label: 'DE +49' },
+  { code: '+44', label: 'GB +44' },
+  { code: '+33', label: 'FR +33' },
+  { code: '+34', label: 'ES +34' },
+  { code: '+39', label: 'IT +39' },
+  { code: '+31', label: 'NL +31' },
+  { code: '+48', label: 'PL +48' },
+  { code: '+351', label: 'PT +351' },
+  { code: '+1', label: 'US/CA +1' },
+]
 
 const CATEGORIES = [
   { id: 'all', label: 'All products' },
@@ -71,31 +86,6 @@ const PRODUCTS = [
   { cat: 'snacks', name: 'Small black sesame bar jar', desc: 'Minimum order 10 kg.', code: 'MZ-035', pack: 'Glass jar', tags: ['Snacks', 'Indian food', 'Sesame'] },
   { cat: 'textile', name: 'Cotton mesh bags', desc: 'Reusable cotton mesh bags for shopping and storage.', code: 'MZ-036', pack: '1 pc', tags: ['Textile', 'Cotton', 'Reusable'] },
   { cat: 'toys', name: 'Wooden teether rattle', desc: 'A wooden teether and rattle toy that makes a gentle sound.', code: 'MZ-037', pack: '1 pc', tags: ['Kids', 'Wooden', 'Toy'] },
-]
-
-const WHY = [
-  ['Rooted in India', 'Products come from makers we know and trust.'],
-  ['Chosen with care', 'A small range, picked for quality and honest sourcing.'],
-  ['Clear information', 'You see what a product is and where it comes from.'],
-  ['Made for Europe', 'Imported and delivered to customers across Europe.'],
-]
-
-const STEPS = [
-  ['Chosen in India', 'We work with a trusted sourcing partner and select each product by hand.'],
-  ['Shipped to Europe', 'Goods are imported and checked before they reach you.'],
-  ['Delivered to you', 'You get quality products at a fair price, with clear information.'],
-]
-
-const FAQ = [
-  [
-    'How do I order?',
-    `Send an email to ${EMAIL} or call ${PHONE_INTL} with the products you want. You can also reach us via Instagram (@${INSTAGRAM_ID}) or WhatsApp. The minimum order for snacks is 10 kg. We reply with details and delivery information.`,
-  ],
-  ['Where do the products come from?', 'They come from makers in India, sourced through a trusted partner.'],
-  [
-    'What products do you sell?',
-    'Cold-pressed oils, rice, snacks, cotton textiles and wooden toys for kids. We add more as the range grows.',
-  ],
 ]
 
 const getCatLabel = (id) => CATEGORIES.find((c) => c.id === id)?.label ?? ''
@@ -315,8 +305,10 @@ function PinIcon({ size = 16 }) {
   )
 }
 
-function Product({ cat, name, desc, onOpen }) {
+function Product({ cat, name, desc, code, lang = 'en', onOpen }) {
+  const t = (key) => translate(lang, key)
   const image = getProductImage(name)
+  const localizedDesc = translate(lang, `pd.${code}`)
 
   return (
     <div
@@ -330,7 +322,7 @@ function Product({ cat, name, desc, onOpen }) {
           onOpen?.()
         }
       }}
-      aria-label={`View details for ${name}`}
+      aria-label={`${t('item.viewAria')} ${name}`}
     >
       <div className={`pic${image ? ' has-image' : ''}`}>
         {image ? (
@@ -340,12 +332,12 @@ function Product({ cat, name, desc, onOpen }) {
         )}
       </div>
       <div className="t">
-        <span className="cat">{getCatLabel(cat)}</span>
+        <span className="cat">{translate(lang, `cat.${cat}`)}</span>
         <h3>{name}</h3>
-        <p>{desc}</p>
+        <p>{localizedDesc}</p>
         <div className="item-foot">
-          <span className="item-min">Minimum order: 10 kg</span>
-          <span className="item-view">View details →</span>
+          <span className="item-min">{t('item.minOrder')}</span>
+          <span className="item-view">{t('item.viewDetails')}</span>
         </div>
       </div>
     </div>
@@ -359,7 +351,8 @@ const TRUST_ITEMS = [
   { icon: PinIcon, text: 'Direct from Indian makers' },
 ]
 
-function ProductModal({ product, onClose, onPrev, onNext }) {
+function ProductModal({ product, onClose, onPrev, onNext, lang = 'en' }) {
+  const t = (key) => translate(lang, key)
   const isSnack = product.cat === 'snacks'
   const minQty = isSnack ? 10 : 1
   const unit = isSnack ? 'kg' : 'pc'
@@ -454,18 +447,18 @@ function ProductModal({ product, onClose, onPrev, onNext }) {
             <h2 id="pdp-title" className="pdp-title">
               {product.name}
             </h2>
-            <span className="pdp-cat">{getCatLabel(product.cat)}</span>
+            <span className="pdp-cat">{t(`cat.${product.cat}`)}</span>
             <p className="pdp-code">Product code: {product.code}</p>
-            <span className="pdp-stock">In stock</span>
-            {product.pack && <p className="pdp-pack">Pack size: {product.pack}</p>}
-            {isSnack && <p className="pdp-min">Minimum order: 10 kg</p>}
+            <span className="pdp-stock">{t('pdp.inStock')}</span>
+            {product.pack && <p className="pdp-pack">{t('pdp.packSize')}: {product.pack}</p>}
+            {isSnack && <p className="pdp-min">{t('pdp.minOrder10')}</p>}
 
             <div className="pdp-qty">
               <button
                 type="button"
                 onClick={() => setQty((q) => Math.max(minQty, q - 1))}
                 disabled={qty <= minQty}
-                aria-label="Decrease quantity"
+                aria-label={t('pdp.decrease')}
               >
                 −
               </button>
@@ -475,7 +468,7 @@ function ProductModal({ product, onClose, onPrev, onNext }) {
               <button
                 type="button"
                 onClick={() => setQty((q) => q + 1)}
-                aria-label="Increase quantity"
+                aria-label={t('pdp.increase')}
               >
                 +
               </button>
@@ -483,19 +476,19 @@ function ProductModal({ product, onClose, onPrev, onNext }) {
 
             <div className="pdp-actions">
               <a className="btn pdp-send" href={mailto}>
-                Send enquiry
+                {t('pdp.send')}
               </a>
               <a className="btn secondary pdp-call" href={`tel:${PHONE_INTL}`}>
-                Call us
+                {t('pdp.call')}
               </a>
             </div>
 
             <div className="pdp-tabs" role="tablist">
               <span className="pdp-tab active" role="tab" aria-selected="true">
-                Description
+                {t('pdp.description')}
               </span>
             </div>
-            <p className="pdp-desc">{product.desc}</p>
+            <p className="pdp-desc">{translate(lang, `pd.${product.code}`)}</p>
 
             <div className="pdp-tags">
               {(product.tags || []).map((t) => (
@@ -506,14 +499,17 @@ function ProductModal({ product, onClose, onPrev, onNext }) {
             </div>
 
             <div className="pdp-trust">
-              {TRUST_ITEMS.map(({ icon: Icon, text }) => (
-                <div className="pdp-trust-item" key={text}>
-                  <span className="pdp-trust-icon">
-                    <Icon size={15} />
-                  </span>
-                  <span>{text}</span>
-                </div>
-              ))}
+              {[1, 2, 3, 4].map((i) => {
+                const Icon = TRUST_ITEMS[i - 1].icon
+                return (
+                  <div className="pdp-trust-item" key={i}>
+                    <span className="pdp-trust-icon">
+                      <Icon size={15} />
+                    </span>
+                    <span>{t(`pdp.trust${i}`)}</span>
+                  </div>
+                )
+              })}
             </div>
 
             <div className="pdp-nav">
@@ -523,7 +519,7 @@ function ProductModal({ product, onClose, onPrev, onNext }) {
                 onClick={onPrev}
                 disabled={!onPrev}
               >
-                ← Previous product
+                {t('pdp.prev')}
               </button>
               <button
                 type="button"
@@ -531,7 +527,7 @@ function ProductModal({ product, onClose, onPrev, onNext }) {
                 onClick={onNext}
                 disabled={!onNext}
               >
-                Next product →
+                {t('pdp.next')} →
               </button>
             </div>
           </div>
@@ -553,6 +549,9 @@ export default function App() {
   const [enquiryStatus, setEnquiryStatus] = useState('idle')
   const [enquiryError, setEnquiryError] = useState('')
   const [showTop, setShowTop] = useState(false)
+
+  const t = (key, vars) => translate(lang, key, vars)
+  const catLabel = (id) => t(`cat.${id}`)
 
   useEffect(() => {
     function onScroll() {
@@ -616,12 +615,22 @@ export default function App() {
     const form = event.currentTarget
     const data = new FormData(form)
     const name = String(data.get('name') || '').trim()
-    const contact = String(data.get('contact') || '').trim()
+    const email = String(data.get('email') || '').trim()
+    const phoneCode = String(data.get('phoneCode') || '').trim()
+    const phoneNumber = String(data.get('phoneNumber') || '').trim()
+    const phone = phoneNumber ? `${phoneCode} ${phoneNumber}`.trim() : ''
+    const contact = email || phone
     const quantity = String(data.get('quantity') || '').trim()
     const message = String(data.get('message') || '').trim()
     const product =
       String(data.get('product') || '').trim() || enquiryModal?.name || 'Product'
     const emailLike = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact)
+
+    if (!contact) {
+      setEnquiryStatus('error')
+      setEnquiryError(t('enq.contactRequired'))
+      return
+    }
 
     setEnquiryStatus('sending')
     setEnquiryError('')
@@ -741,7 +750,7 @@ export default function App() {
             Mazzev
           </a>
           <nav aria-label="Main">
-            <a href="#top">Home</a>
+            <a href="#top">{t('nav.home')}</a>
             <div
               className="nav-dropdown"
               onMouseEnter={() => setShopMenuOpen(true)}
@@ -757,7 +766,7 @@ export default function App() {
                   document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' })
                 }}
               >
-                Shop ▾
+                {t('nav.shop')} ▾
               </a>
               {shopMenuOpen && (
                 <div className="dropdown-menu" role="menu">
@@ -772,7 +781,7 @@ export default function App() {
                         document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' })
                       }}
                     >
-                      {c.label}
+                      {catLabel(c.id)}
                     </button>
                   ))}
                 </div>
@@ -790,7 +799,7 @@ export default function App() {
                 })
               }}
             >
-              Enquiry
+              {t('nav.enquiry')}
             </a>
             <a
               href="#about"
@@ -799,7 +808,7 @@ export default function App() {
                 setAboutOpen(true)
               }}
             >
-              About us
+              {t('nav.about')}
             </a>
           </nav>
 
@@ -815,7 +824,7 @@ export default function App() {
               <SearchIcon size={15} className="shop-search-icon" />
               <input
                 type="search"
-                placeholder="Search products…"
+                placeholder={t('search.placeholder')}
                 value={search}
                 onChange={(e) => {
                   setSearch(e.target.value)
@@ -828,13 +837,13 @@ export default function App() {
                 role="combobox"
                 aria-expanded={searchOpen && search.trim().length > 0}
                 aria-controls="search-dropdown"
-                aria-label="Search products"
+                aria-label={t('search.aria')}
               />
               {searchOpen && search.trim() && (
                 <div className="search-dropdown" id="search-dropdown" role="listbox">
                   {dropdownResults.length === 0 ? (
                     <div className="search-dropdown-empty">
-                      No products found matching &quot;{search}&quot;
+                      {t('search.empty')} &quot;{search}&quot;
                     </div>
                   ) : (
                     dropdownResults.map((p) => {
@@ -857,7 +866,7 @@ export default function App() {
                         )}
                         <span className="sd-text">
                           <span className="sd-name">{p.name}</span>
-                          <span className="sd-cat">{getCatLabel(p.cat)}</span>
+                          <span className="sd-cat">{catLabel(p.cat)}</span>
                         </span>
                       </button>
                       )
@@ -893,11 +902,8 @@ export default function App() {
       <div className="hero">
         <div className="wrap hero-inner">
           <div className="hero-copy">
-            <h1>Everyday goods with Indian roots, made for life in Europe.</h1>
-            <p>
-              A modern general merchandise brand with Indian roots and a European outlook. Food,
-              textiles and kids&apos; toys from trusted makers in India.
-            </p>
+            <h1>{t('hero.title')}</h1>
+            <p>{t('hero.lead')}</p>
           </div>
           <div className="hero-supply-frame-wrap">
             <iframe
@@ -914,7 +920,7 @@ export default function App() {
       <div className="hero-products-strip">
         <div className="wrap">
           <div className="hero-marquee-wrap">
-            <span className="hero-products-label">Featured &amp; New Launches</span>
+            <span className="hero-products-label">{t('marquee.label')}</span>
             <div className="hero-marquee">
               <div className="hero-marquee-track">
               {[0, 1].map((loopIdx) => (
@@ -945,16 +951,16 @@ export default function App() {
       <section id="shop" className="shop-section">
         <div className="wrap">
           {/* WHY CHOOSE US TRUST STRIP (From example photo) */}
-          <div className="trust-strip" aria-label="Why choose us">
-            <div className="trust-strip-title">Why choose us?</div>
+          <div className="trust-strip" aria-label={t('trust.title')}>
+            <div className="trust-strip-title">{t('trust.title')}</div>
             <div className="trust-strip-items">
               <div className="trust-strip-item">
                 <span className="trust-strip-icon-wrap clock-wrap">
                   <ClockIcon size={18} />
                 </span>
                 <div>
-                  <strong>On time delivery</strong>
-                  <small>Shipping Across Europe</small>
+                  <strong>{t('trust.delivery')}</strong>
+                  <small>{t('trust.deliverySub')}</small>
                 </div>
               </div>
 
@@ -963,8 +969,8 @@ export default function App() {
                   <TruckIcon size={18} />
                 </span>
                 <div>
-                  <strong>Direct wholesale sourcing</strong>
-                  <small>Trusted Indian makers</small>
+                  <strong>{t('trust.wholesale')}</strong>
+                  <small>{t('trust.wholesaleSub')}</small>
                 </div>
               </div>
 
@@ -973,8 +979,8 @@ export default function App() {
                   <ShieldCheckIcon size={18} />
                 </span>
                 <div>
-                  <strong>Quality assurance</strong>
-                  <small>100% Original Products</small>
+                  <strong>{t('trust.quality')}</strong>
+                  <small>{t('trust.qualitySub')}</small>
                 </div>
               </div>
             </div>
@@ -982,9 +988,9 @@ export default function App() {
 
           {/* CATEGORIES HEADER */}
           <div className="categories-header text-center">
-            <h2>Categories</h2>
+            <h2>{t('cats.title')}</h2>
             <p className="lead categories-lead">
-              <span>Select a category box to explore our authentic Indian products and wholesale specialties.</span>
+              <span>{t('cats.lead')}</span>
             </p>
           </div>
 
@@ -1012,7 +1018,7 @@ export default function App() {
                   title={boxOpen ? `Close ${cat.label}` : `View ${cat.label}`}
                 >
                   <div className="cat-box-header">
-                    <span>{cat.label}</span>
+                    <span>{catLabel(cat.id)}</span>
                     <span className="cat-box-chevron" aria-hidden="true">
                       {boxOpen ? '▴' : '▾'}
                     </span>
@@ -1020,20 +1026,23 @@ export default function App() {
                   <div className="cat-box-body">
                     <CategoryVisual catId={cat.id} />
                     <span className="cat-box-count">
-                      {catCount > 0 ? `${catCount} ${catCount === 1 ? 'item' : 'items'}` : 'Wholesale available'}
+                      {catCount > 0
+                        ? `${catCount} ${catCount === 1 ? t('cats.item') : t('cats.items')}`
+                        : t('cats.wholesaleAvailable')}
                     </span>
                   </div>
                   {boxOpen && (
                     <div className="cat-box-products">
                       {catProducts.length === 0 ? (
                         <p className="cat-group-empty">
-                          No products in this category yet.
+                          {t('cats.empty')}
                         </p>
                       ) : (
                         catProducts.map((p) => (
                           <Product
                             key={p.name}
                             {...p}
+                            lang={lang}
                             onOpen={() => setProductModal(p)}
                           />
                         ))
@@ -1047,7 +1056,7 @@ export default function App() {
 
           {searchQuery && visibleCategories.length === 0 && (
             <div className="search-empty">
-              <p>No products found</p>
+              <p>{t('search.noResults')}</p>
               <button
                 type="button"
                 className="btn"
@@ -1056,7 +1065,7 @@ export default function App() {
                   setSearchOpen(false)
                 }}
               >
-                Clear search
+                {t('search.clear')}
               </button>
             </div>
           )}
@@ -1066,13 +1075,13 @@ export default function App() {
       {/* 5. WHY CHOOSE MAZZEV */}
       <section id="why" className="alt">
         <div className="wrap">
-          <h2>Why choose Mazzev</h2>
-          <p className="lead">Simple promises we can keep.</p>
+          <h2>{t('why.title')}</h2>
+          <p className="lead">{t('why.lead')}</p>
           <div className="why">
-            {WHY.map(([t, d]) => (
-              <div key={t}>
-                <h3>{t}</h3>
-                <p>{d}</p>
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i}>
+                <h3>{t(`why.${i}t`)}</h3>
+                <p>{t(`why.${i}d`)}</p>
               </div>
             ))}
           </div>
@@ -1082,13 +1091,13 @@ export default function App() {
       {/* 6. HOW IT WORKS */}
       <section id="how">
         <div className="wrap">
-          <h2>How it works</h2>
-          <p className="lead">Short, direct, and easy to follow.</p>
+          <h2>{t('how.title')}</h2>
+          <p className="lead">{t('how.lead')}</p>
           <ol className="steps">
-            {STEPS.map(([t, d]) => (
-              <li key={t}>
-                <h3>{t}</h3>
-                <p>{d}</p>
+            {[1, 2, 3].map((i) => (
+              <li key={i}>
+                <h3>{t(`how.${i}t`)}</h3>
+                <p>{t(`how.${i}d`)}</p>
               </li>
             ))}
           </ol>
@@ -1098,12 +1107,18 @@ export default function App() {
       {/* 7. QUESTIONS / FAQ */}
       <section id="faq" className="alt">
         <div className="wrap">
-          <h2>Questions</h2>
-          <p className="lead">If your question isn&apos;t here, contact us directly.</p>
-          {FAQ.map(([q, a]) => (
-            <details key={q}>
-              <summary>{q}</summary>
-              <p>{a}</p>
+          <h2>{t('faq.title')}</h2>
+          <p className="lead">{t('faq.lead')}</p>
+          {[1, 2, 3].map((i) => (
+            <details key={i}>
+              <summary>{t(`faq.${i}q`)}</summary>
+              <p>
+                {t(`faq.${i}a`, {
+                  email: EMAIL,
+                  phone: PHONE_INTL,
+                  instagram: INSTAGRAM_ID,
+                })}
+              </p>
             </details>
           ))}
         </div>
@@ -1113,12 +1128,9 @@ export default function App() {
       <section id="social" className="social-section">
         <div className="wrap">
           <div className="section-head text-center">
-            <span className="section-badge">Join Our Community</span>
-            <h2>Follow Us on Social Media</h2>
-            <p className="lead">
-              Discover authentic Indian wellness stories, new batch arrivals, behind-the-scenes
-              sourcing, and customer updates on our official social channels.
-            </p>
+            <span className="section-badge">{t('social.badge')}</span>
+            <h2>{t('social.title')}</h2>
+            <p className="lead">{t('social.lead')}</p>
           </div>
 
           <div className="social-cards-grid">
@@ -1133,10 +1145,7 @@ export default function App() {
                   <span className="social-handle">{INSTAGRAM_ID}</span>
                 </div>
               </div>
-              <p className="social-card-desc">
-                Follow our daily stories, new product batches, traditional recipes, and visual edits
-                straight from Indian makers.
-              </p>
+              <p className="social-card-desc">{t('social.instaDesc')}</p>
               <a
                 href={INSTAGRAM_URL}
                 target="_blank"
@@ -1144,7 +1153,7 @@ export default function App() {
                 className="social-btn insta-btn"
               >
                 <InstagramIcon size={16} />
-                <span>Follow on Instagram</span>
+                <span>{t('social.instaBtn')}</span>
               </a>
             </div>
 
@@ -1159,10 +1168,7 @@ export default function App() {
                   <span className="social-handle">{FACEBOOK_ID}</span>
                 </div>
               </div>
-              <p className="social-card-desc">
-                Connect with our European trade community, read wholesale announcements, customer
-                reviews, and brand updates.
-              </p>
+              <p className="social-card-desc">{t('social.fbDesc')}</p>
               <a
                 href={FACEBOOK_URL}
                 target="_blank"
@@ -1170,7 +1176,7 @@ export default function App() {
                 className="social-btn fb-btn"
               >
                 <FacebookIcon size={16} />
-                <span>Visit Facebook Page</span>
+                <span>{t('social.fbBtn')}</span>
               </a>
             </div>
 
@@ -1185,10 +1191,7 @@ export default function App() {
                   <span className="social-handle">+46764393211</span>
                 </div>
               </div>
-              <p className="social-card-desc">
-                Message our team directly for instant quotes, wholesale orders, custom product
-                requests, and quick questions.
-              </p>
+              <p className="social-card-desc">{t('social.waDesc')}</p>
               <a
                 href={WHATSAPP_URL}
                 target="_blank"
@@ -1196,7 +1199,7 @@ export default function App() {
                 className="social-btn wa-btn"
               >
                 <WhatsAppIcon size={16} />
-                <span>Chat on WhatsApp</span>
+                <span>{t('social.waBtn')}</span>
               </a>
             </div>
           </div>
@@ -1204,14 +1207,14 @@ export default function App() {
       </section>
 
       {/* 8b. ABOUT US MODAL */}
-      <AboutUs open={aboutOpen} onClose={() => setAboutOpen(false)} />
+      <AboutUs open={aboutOpen} onClose={() => setAboutOpen(false)} lang={lang} />
 
       {/* 9. COMPREHENSIVE FOOTER (Matching example photo layout) */}
       <footer id="contact" className="site-footer">
         <div className="wrap">
           <div className="footer-cols">
             <div className="footer-col">
-              <h4>My Account</h4>
+              <h4>{t('foot.myAccount')}</h4>
               <a
                 href="#enquiry"
                 onClick={(e) => {
@@ -1224,7 +1227,7 @@ export default function App() {
                   })
                 }}
               >
-                Wholesale Enquiry
+                {t('foot.wholesaleEnquiry')}
               </a>
               <a
                 href="#enquiry"
@@ -1238,7 +1241,7 @@ export default function App() {
                   })
                 }}
               >
-                Order Status
+                {t('foot.orderStatus')}
               </a>
               <a
                 href="#enquiry"
@@ -1252,23 +1255,23 @@ export default function App() {
                   })
                 }}
               >
-                Sample Requests
+                {t('foot.sampleRequests')}
               </a>
-              <a href={`mailto:${EMAIL}`}>Customer Support</a>
-              <a href={`tel:${PHONE_INTL}`}>Direct Assistance</a>
+              <a href={`mailto:${EMAIL}`}>{t('foot.customerSupport')}</a>
+              <a href={`tel:${PHONE_INTL}`}>{t('foot.directAssistance')}</a>
             </div>
 
             <div className="footer-col">
-              <h4>Information</h4>
-              <a href="#why">Terms &amp; Conditions</a>
-              <a href="#why">Privacy Policy</a>
-              <a href="#how">Delivery &amp; Shipping</a>
-              <a href="#faq">Sourcing Standards</a>
-              <a href="#faq">Returns &amp; Quality Guarantee</a>
+              <h4>{t('foot.information')}</h4>
+              <a href="#why">{t('foot.terms')}</a>
+              <a href="#why">{t('foot.privacy')}</a>
+              <a href="#how">{t('foot.delivery')}</a>
+              <a href="#faq">{t('foot.sourcing')}</a>
+              <a href="#faq">{t('foot.returns')}</a>
             </div>
 
             <div className="footer-col">
-              <h4>About</h4>
+              <h4>{t('foot.about')}</h4>
               <a
                 href="#about"
                 onClick={(e) => {
@@ -1276,20 +1279,20 @@ export default function App() {
                   setAboutOpen(true)
                 }}
               >
-                About Mazzev
+                {t('foot.aboutMazzev')}
               </a>
-              <a href="#how">How It Works</a>
-              <a href="#why">Why Choose Us</a>
-              <a href="#why">Rooted in India</a>
-              <a href="#contact">Contact Us</a>
+              <a href="#how">{t('foot.howItWorks')}</a>
+              <a href="#why">{t('foot.whyChooseUs')}</a>
+              <a href="#why">{t('foot.rootedInIndia')}</a>
+              <a href="#contact">{t('foot.contactUs')}</a>
             </div>
 
             <div className="footer-col">
-              <h4>Extras</h4>
-              <a href="#shop">Snacks (Min 10 kg)</a>
-              <a href="#shop">Wholesale Pricing</a>
-              <a href="#shop">PET Jar Options</a>
-              <a href="#why">Certificate of Quality</a>
+              <h4>{t('foot.extras')}</h4>
+              <a href="#shop">{t('foot.snacksMin')}</a>
+              <a href="#shop">{t('foot.wholesalePricing')}</a>
+              <a href="#shop">{t('foot.petJar')}</a>
+              <a href="#why">{t('foot.certificate')}</a>
               <a
                 href="#enquiry"
                 onClick={(e) => {
@@ -1302,15 +1305,13 @@ export default function App() {
                   })
                 }}
               >
-                Custom Import Sourcing
+                {t('foot.customImport')}
               </a>
             </div>
 
             <div className="footer-col footer-col-contact">
-              <h4>Contacts</h4>
-              <p className="foot-contact-note">
-                Direct wholesale sourcing and cross-border delivery across Europe.
-              </p>
+              <h4>{t('foot.contacts')}</h4>
+              <p className="foot-contact-note">{t('foot.contactNote')}</p>
               <a className="foot-contact-link" href={`mailto:${EMAIL}`}>
                 <MailIcon size={14} /> {EMAIL}
               </a>
@@ -1323,7 +1324,7 @@ export default function App() {
           {/* BOTTOM ROW: Payment Options, Social Media, and Logo */}
           <div className="footer-bottom-bar">
             <div className="footer-bottom-section">
-              <span className="footer-bottom-title">Social Media</span>
+              <span className="footer-bottom-title">{t('foot.socialMedia')}</span>
               <div className="footer-social-icons">
                 <a
                   href={INSTAGRAM_URL}
@@ -1363,7 +1364,7 @@ export default function App() {
                 <img src="/logo-mark.png" alt="Mazzev Logo" width="28" height="44" />
                 <span>Mazzev</span>
               </a>
-              <p className="footer-copy">© 2026 Mazzev. All rights reserved.</p>
+              <p className="footer-copy">© 2026 Mazzev. {t('foot.rights')}</p>
             </div>
           </div>
         </div>
@@ -1397,6 +1398,7 @@ export default function App() {
                   ? () => setProductModal(list[idx + 1])
                   : null
               }
+              lang={lang}
             />
           )
         })()}
@@ -1422,64 +1424,90 @@ export default function App() {
               <CloseIcon size={20} />
             </button>
 
-            <span className="modal-cat">{getCatLabel(enquiryModal.cat)}</span>
+            <span className="modal-cat">{catLabel(enquiryModal.cat)}</span>
             <h2 id="modal-enquiry-title">{enquiryModal.name}</h2>
             <p className="modal-desc">{enquiryModal.desc}</p>
 
             {enquiryStatus === 'sent' ? (
               <div className="modal-success">
-                <strong>✓ Enquiry Received!</strong>
-                <p>
-                  Thank you. Your enquiry was sent to {EMAIL}. We will get back to you
-                  shortly with pricing and delivery details.
-                </p>
+                <strong>✓ {t('enq.received')}</strong>
+                <p>{t('enq.receivedBody', { email: EMAIL })}</p>
               </div>
             ) : (
               <>
                 <form className="modal-form" onSubmit={handleSendEnquiry}>
-                  <label htmlFor="enquiry-name">Your Name</label>
-                  <input id="enquiry-name" name="name" required placeholder="Name or Company" />
+                  <label htmlFor="enquiry-name">
+                    {t('enq.yourName')} <span className="req-star">*</span>
+                  </label>
+                  <input id="enquiry-name" name="name" required placeholder={t('enq.namePh')} />
 
-                  <label htmlFor="enquiry-email">Email or Phone</label>
+                  <label htmlFor="enquiry-email">
+                    {t('enq.emailPhone')} <span className="req-star">*</span>
+                  </label>
                   <input
                     id="enquiry-email"
-                    name="contact"
-                    required
-                    placeholder="email@example.com or phone number"
+                    name="email"
+                    type="email"
+                    placeholder={t('enq.emailPh')}
                   />
 
-                  <label htmlFor="enquiry-product">Product</label>
+                  <div className="phone-group">
+                    <select
+                      name="phoneCode"
+                      defaultValue="+46"
+                      aria-label={t('enq.countryCode')}
+                    >
+                      {COUNTRY_CODES.map((c) => (
+                        <option key={c.code} value={c.code}>
+                          {c.label}
+                        </option>
+                      ))}
+                    </select>
+                    <input
+                      name="phoneNumber"
+                      type="tel"
+                      placeholder={t('enq.phonePh')}
+                      aria-label={t('enq.phone')}
+                    />
+                  </div>
+
+                  <label htmlFor="enquiry-product">
+                    {t('enq.product')} <span className="req-star">*</span>
+                  </label>
                   <select id="enquiry-product" name="product" required defaultValue="">
                     <option value="" disabled>
-                      Select a product
+                      {t('enq.selectProduct')}
                     </option>
                     {PRODUCTS.map((p) => (
                       <option key={p.name} value={p.name}>
                         {p.name}
                       </option>
                     ))}
-                    <option value="Other / not listed">Other / not listed</option>
+                    <option value="Other / not listed">{t('enq.other')}</option>
                   </select>
 
-                  <label htmlFor="enquiry-quantity">Estimated Quantity</label>
+                  <label htmlFor="enquiry-quantity">
+                    {t('enq.quantity')} <span className="req-star">*</span>
+                  </label>
                   <input
                     id="enquiry-quantity"
                     name="quantity"
-                    placeholder="e.g. 10 kg, 20 kg, sample pack"
+                    required
+                    placeholder={t('enq.quantityPh')}
                   />
 
-                  <label htmlFor="enquiry-msg">Message / Destination (optional)</label>
+                  <label htmlFor="enquiry-msg">{t('enq.message')}</label>
                   <textarea
                     id="enquiry-msg"
                     name="message"
                     rows="3"
-                    defaultValue={`I am interested in ordering ${enquiryModal.name}. Please share pricing and shipping details.`}
+                    defaultValue={t('enq.interested', { product: enquiryModal.name })}
                   />
 
                   {enquiryStatus === 'error' && <p className="modal-error">{enquiryError}</p>}
 
                   <button className="btn full-btn" type="submit" disabled={enquiryStatus === 'sending'}>
-                    {enquiryStatus === 'sending' ? 'Sending…' : 'Send Enquiry'}
+                    {enquiryStatus === 'sending' ? t('enq.sending') : t('enq.send')}
                   </button>
                 </form>
               </>
