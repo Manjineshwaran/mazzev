@@ -1298,18 +1298,6 @@ export default function App() {
           {/* BOTTOM ROW: Payment Options, Social Media, and Logo */}
           <div className="footer-bottom-bar">
             <div className="footer-bottom-section">
-              <span className="footer-bottom-title">Payment Option</span>
-              <div className="payment-badges" aria-label="Accepted Payment & Trade Options">
-                <span className="pay-badge mc">Mastercard</span>
-                <span className="pay-badge visa">VISA</span>
-                <span className="pay-badge amex">AMEX</span>
-                <span className="pay-badge pp">PayPal</span>
-                <span className="pay-badge sepa">SEPA Transfer</span>
-                <span className="pay-badge inv">Invoice</span>
-              </div>
-            </div>
-
-            <div className="footer-bottom-section">
               <span className="footer-bottom-title">Social Media</span>
               <div className="footer-social-icons">
                 <a

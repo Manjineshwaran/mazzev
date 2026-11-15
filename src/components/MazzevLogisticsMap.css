@@ -1,0 +1,48 @@
+.mazzev-logistics-section {
+  width: 100%;
+  background-color: #f7f7f7;
+  padding: 64px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mazzev-logistics-container {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mazzev-logistics-card {
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+  padding: 24px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mazzev-logistics-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
+}
+
+.mazzev-logistics-map {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+  .mazzev-logistics-section {
+    padding: 40px 14px;
+  }
+
+  .mazzev-logistics-card {
+    padding: 14px;
+    border-radius: 12px;
+  }
+}

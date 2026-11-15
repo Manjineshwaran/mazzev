@@ -53,7 +53,12 @@ html {
 
 body {
   margin: 0;
-  background: var(--bg);
+  background-color: var(--bg);
+  background-image: url('/images/mazzev-world-map-bg.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
   color: var(--ink);
   font: 17px/1.65 "Figtree", system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
